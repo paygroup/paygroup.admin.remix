@@ -8,6 +8,8 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import { theme } from "./modules/theme";
+
 export default function App() {
   return (
     <html lang="en">
@@ -18,7 +20,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           <Outlet />
         </ChakraProvider>
 

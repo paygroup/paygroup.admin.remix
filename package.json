@@ -4,7 +4,8 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "lint": "eslint  --fix '*/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.6.0",
