@@ -1,3 +1,4 @@
+import { ChakraProvider } from "@chakra-ui/react";
 import {
   Links,
   LiveReload,
@@ -17,7 +18,10 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <ChakraProvider>
+          <Outlet />
+        </ChakraProvider>
+
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
