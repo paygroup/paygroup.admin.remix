@@ -18,9 +18,10 @@ import { FaEthereum } from "react-icons/fa";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { MdNotificationsNone } from "react-icons/md";
 
-import { SearchBar } from "./components/searchbar";
-import { SidebarResponsive } from "./modules/sidebar";
-import type { RoutesType } from "./types";
+import { SearchBar } from "~/components/searchbar";
+import type { RoutesType } from "~/types";
+
+import { SidebarResponsive } from "../sidebar";
 
 export default function NavBarLinks(props: {
   secondary: boolean;

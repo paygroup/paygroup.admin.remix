@@ -9,10 +9,9 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import { MainContent, PageContent, PageNavbar } from "./modules/page";
 import { SideBar } from "./modules/sidebar";
 import { theme } from "./modules/theme";
-import { MainContent, PageContent } from "./root.layouts";
-import { PageNavbar } from "./root.navbar";
 import { routeLinks } from "./root.route-links";
 
 export const links: LinksFunction = () => [

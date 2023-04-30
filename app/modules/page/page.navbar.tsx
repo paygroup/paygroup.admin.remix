@@ -9,8 +9,9 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import NavBarLinks from "./root.navbar.links";
-import type { RoutesType } from "./types";
+import type { RoutesType } from "~/types";
+
+import NavBarLinks from "./page.navbar.links";
 
 export const PageNavbar: React.FC<{ routes: RoutesType[] }> = ({ routes }) => {
   const mainText = useColorModeValue("navy.700", "white");
