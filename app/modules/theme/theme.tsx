@@ -10,11 +10,20 @@ import { progressStyles } from "./components/progress";
 import { sliderStyles } from "./components/slider";
 import { switchStyles } from "./components/switch";
 import { textareaStyles } from "./components/textarea";
-import { breakpoints } from "./foundations/breakpoints";
 import { globalStyles } from "./styles";
 
 export const theme = extendTheme(
-  { breakpoints }, // Breakpoints
+  {
+    breakpoints: {
+      sm: "320px",
+      "2sm": "380px",
+      md: "768px",
+      lg: "960px",
+      xl: "1200px",
+      "2xl": "1600px",
+      "3xl": "1920px",
+    },
+  }, // Breakpoints
   globalStyles,
   badgeStyles, // badge styles
   buttonStyles, // button styles

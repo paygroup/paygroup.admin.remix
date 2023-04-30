@@ -3,7 +3,7 @@ import { MdHome, MdBarChart } from "react-icons/md";
 
 import type { RoutesType } from "./types";
 
-export const routeMenus: RoutesType[] = [
+export const routeLinks: RoutesType[] = [
   {
     name: "Home",
     path: "/",

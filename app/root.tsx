@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 import {
   Links,
@@ -9,9 +9,11 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import { RootLayout } from "./modules/layout";
+import { SideBar } from "./modules/sidebar";
 import { theme } from "./modules/theme";
-import { routeMenus } from "./root.menus";
+import { MainContent, PageContent } from "./root.layouts";
+import { PageNavbar } from "./root.navbar";
+import { routeLinks } from "./root.route-links";
 
 export const links: LinksFunction = () => [
   {
@@ -40,9 +42,15 @@ export default function App() {
 
       <body>
         <ChakraProvider theme={theme}>
-          <RootLayout routes={routeMenus}>
-            <Outlet />
-          </RootLayout>
+          <Box>
+            <SideBar routes={routeLinks} />
+            <PageContent>
+              <PageNavbar routes={routeLinks} />
+              <MainContent>
+                <Outlet />
+              </MainContent>
+            </PageContent>
+          </Box>
         </ChakraProvider>
 
         <ScrollRestoration />

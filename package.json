@@ -8,6 +8,7 @@
     "lint": "eslint  --fix '*/**/*.{ts,tsx}'"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.6.0",
     "@emotion/react": "^11",
     "@emotion/server": "^11",
