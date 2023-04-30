@@ -78,19 +78,23 @@ export const globalStyles = {
       100: "#FAFCFE",
     },
   },
+  fonts: {
+    heading: "Roboto;",
+    body: "Roboto;",
+  },
   styles: {
     global: (props: any) => ({
       body: {
         overflowX: "hidden",
         bg: mode("secondaryGray.300", "navy.900")(props),
-        fontFamily: "DM Sans",
+        fontFamily: "Roboto",
         letterSpacing: "-0.5px",
       },
       input: {
         color: "gray.700",
       },
       html: {
-        fontFamily: "DM Sans",
+        fontFamily: "Roboto",
       },
     }),
   },
