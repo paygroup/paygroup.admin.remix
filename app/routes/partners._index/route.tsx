@@ -1,5 +1,9 @@
 import { Heading } from "@chakra-ui/react";
 
+export const handle = {
+  title: "partners",
+};
+
 export default function Partners() {
-  return <Heading>Partners</Heading>;
+  return <Heading fontSize="3xl">Partners</Heading>;
 }

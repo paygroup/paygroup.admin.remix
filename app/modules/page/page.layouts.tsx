@@ -31,7 +31,9 @@ export const PageContent = ({ children }: React.PropsWithChildren) => (
 );
 
 export const MainContent = ({ children }: React.PropsWithChildren) => (
-  <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>{children}</Box>
+  <Box px="7" pt={{ base: "130px", md: "80px", xl: "80px" }}>
+    {children}
+  </Box>
 );
 
 const PageFooter = () => {

@@ -1,44 +1,27 @@
-import {
-  Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Link,
-  Flex,
-  Portal,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, Portal, useColorModeValue } from "@chakra-ui/react";
 
 import type { RoutesType } from "~/types";
 
+import { PageBreadcrumbs } from "./page.breadcrumbs";
 import NavBarLinks from "./page.navbar.links";
+import { PageTitle } from "./page.title";
 
 export const PageNavbar: React.FC<{ routes: RoutesType[] }> = ({ routes }) => {
-  const mainText = useColorModeValue("navy.700", "white");
-  const secondaryText = useColorModeValue("gray.700", "white");
-  const navbarPosition = "fixed" as const;
-  const navbarFilter = "none";
-  const navbarBackdrop = "blur(20px)";
-  const navbarShadow = "none";
   const navbarBg = useColorModeValue(
     "rgba(244, 247, 254, 0.2)",
     "rgba(11,20,55,0.5)"
   );
-  const navbarBorder = "transparent";
-  const secondaryMargin = "0px";
-  const paddingX = "15px";
-  const gap = "0px";
 
   return (
     <Portal>
       <Box>
         <Box
-          position={navbarPosition}
-          boxShadow={navbarShadow}
+          position="fixed"
+          boxShadow="none"
           bg={navbarBg}
-          borderColor={navbarBorder}
-          filter={navbarFilter}
-          backdropFilter={navbarBackdrop}
+          borderColor="transparent"
+          filter="none"
+          backdropFilter="blur(20px)"
           backgroundPosition="center"
           backgroundSize="cover"
           borderRadius="16px"
@@ -54,11 +37,11 @@ export const PageNavbar: React.FC<{ routes: RoutesType[] }> = ({ routes }) => {
           justifyContent={{ xl: "center" }}
           lineHeight="25.6px"
           mx="auto"
-          mt={secondaryMargin}
+          mt="0px"
           pb="8px"
           right={{ base: "12px", md: "30px", lg: "30px", xl: "30px" }}
           px={{
-            sm: paddingX,
+            sm: "15px",
             md: "10px",
           }}
           ps={{
@@ -81,43 +64,11 @@ export const PageNavbar: React.FC<{ routes: RoutesType[] }> = ({ routes }) => {
               md: "row",
             }}
             alignItems={{ xl: "center" }}
-            mb={gap}
+            mb="0px"
           >
             <Box mb={{ sm: "8px", md: "0px" }}>
-              <Breadcrumb mb="1">
-                <BreadcrumbItem color={secondaryText} fontSize="sm">
-                  <BreadcrumbLink href="/" color={secondaryText}>
-                    Home
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-
-                <BreadcrumbItem color={secondaryText} fontSize="sm">
-                  <BreadcrumbLink href="/" color={secondaryText}>
-                    Current
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-              </Breadcrumb>
-
-              <Link
-                color={mainText}
-                href="#"
-                bg="inherit"
-                mt="10"
-                borderRadius="inherit"
-                fontWeight="bold"
-                fontSize="34px"
-                _hover={{ color: { mainText } }}
-                _active={{
-                  bg: "inherit",
-                  transform: "none",
-                  borderColor: "transparent",
-                }}
-                _focus={{
-                  boxShadow: "none",
-                }}
-              >
-                Page title
-              </Link>
+              <PageBreadcrumbs />
+              <PageTitle />
             </Box>
 
             <Box ms="auto" w={{ sm: "100%", md: "unset" }}>
