@@ -31,7 +31,16 @@ export const PageContent = ({ children }: React.PropsWithChildren) => (
 );
 
 export const MainContent = ({ children }: React.PropsWithChildren) => (
-  <Box px="7" pt={{ base: "130px", md: "80px", xl: "80px" }}>
+  <Box
+    px={{
+      lg: "5",
+      "3xl": "7",
+    }}
+    ps={{
+      xl: "12px",
+    }}
+    pt={{ base: "130px", md: "80px", xl: "80px" }}
+  >
     {children}
   </Box>
 );

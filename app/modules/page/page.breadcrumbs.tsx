@@ -15,7 +15,7 @@ export const PageBreadcrumbs = () => {
   return (
     <Breadcrumb mb="1">
       {handles.map((h, i) => (
-        <BreadcrumbItem key={h.id} color={color} fontSize="sm">
+        <BreadcrumbItem key={i} color={color} fontSize="sm">
           <BreadcrumbLink color={color} to={h.pathname} as={Link}>
             {h.handle?.title}
           </BreadcrumbLink>

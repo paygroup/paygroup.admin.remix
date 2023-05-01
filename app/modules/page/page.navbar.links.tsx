@@ -13,6 +13,7 @@ import {
   Text,
   useColorModeValue,
   useColorMode,
+  useBreakpoint,
 } from "@chakra-ui/react";
 import { FaEthereum } from "react-icons/fa";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
@@ -64,6 +65,7 @@ export default function NavBarLinks(props: {
         me="10px"
         borderRadius="30px"
       />
+
       <Flex
         bg={ethBg}
         display={secondary ? "flex" : "none"}
@@ -158,6 +160,7 @@ export default function NavBarLinks(props: {
           as={colorMode === "light" ? IoMdMoon : IoMdSunny}
         />
       </Button>
+
       <Menu>
         <MenuButton p="0px">
           <Avatar
@@ -215,6 +218,8 @@ export default function NavBarLinks(props: {
           </Flex>
         </MenuList>
       </Menu>
+
+      {/* <div>{bkr}</div> */}
     </Flex>
   );
 }
