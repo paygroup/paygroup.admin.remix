@@ -13,7 +13,6 @@ import {
   Text,
   useColorModeValue,
   useColorMode,
-  useBreakpoint,
 } from "@chakra-ui/react";
 import { FaEthereum } from "react-icons/fa";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";

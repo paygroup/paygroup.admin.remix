@@ -39,7 +39,7 @@ export const MainContent = ({ children }: React.PropsWithChildren) => (
     ps={{
       xl: "12px",
     }}
-    pt={{ base: "130px", md: "80px", xl: "80px" }}
+    pt={{ base: "140px", md: "80px", xl: "24" }}
   >
     {children}
   </Box>
