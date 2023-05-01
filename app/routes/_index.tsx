@@ -1,5 +1,5 @@
 export const handle = {
-  title: "Dashboard",
+  title: "home",
 };
 
 export default function Index() {

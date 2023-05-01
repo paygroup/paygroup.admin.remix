@@ -13,6 +13,7 @@ export const PageTitle = () => {
       href="#"
       bg="inherit"
       mt="10"
+      textTransform="capitalize"
       borderRadius="inherit"
       fontWeight="bold"
       fontSize="32"

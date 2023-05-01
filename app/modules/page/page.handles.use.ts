@@ -9,7 +9,7 @@ export const useRouteHandles = () => {
         id: "routes/home",
         params: {},
         data: {},
-        pathname: "/home",
+        pathname: "/",
         handle: { title: "home" },
       },
       ...handles,
