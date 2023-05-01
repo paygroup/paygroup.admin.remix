@@ -3,9 +3,12 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
-    "dev": "remix dev",
     "typecheck": "tsc",
-    "lint": "eslint  --fix '*/**/*.{ts,tsx}'"
+    "lint": "eslint  --fix '*/**/*.{ts,tsx}'",
+    "dev:local": "env-cmd -f .env.local remix dev",
+    "dev:remote": "env-cmd -f .env.remote remix dev",
+    "genql:local": "genql --endpoint https://localgraphql.ngrok.io/v1/graphql --output ./app/graphql/genql-sdk -H 'X-Hasura-Admin-Secret:nhost-admin-secret'",
+    "genql:remote": "genql --endpoint https://xdwipkiowyoinqhbqher.nhost.run/v1/graphql --output ./app/graphql/genql-sdk -H 'X-Hasura-Admin-Secret:32f6eb94c995ee3bf6d82672b53fb2a5'"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
@@ -13,12 +16,14 @@
     "@emotion/react": "^11",
     "@emotion/server": "^11",
     "@emotion/styled": "^11",
+    "@genql/runtime": "^2.10.0",
     "@remix-run/node": "^1.15.0",
     "@remix-run/react": "^1.15.0",
     "@remix-run/vercel": "^1.15.0",
     "@tanstack/react-table": "^8.8.5",
     "@vercel/node": "^2.10.3",
     "framer-motion": "^6",
+    "graphql-ws": "^5.12.1",
     "isbot": "^3.6.8",
     "react": "^18.2.0",
     "react-custom-scrollbars-2": "^4.5.0",
@@ -26,11 +31,13 @@
     "react-icons": "^4.8.0"
   },
   "devDependencies": {
+    "@genql/cli": "^2.10.0",
     "@remix-run/dev": "^1.15.0",
     "@remix-run/eslint-config": "^1.15.0",
     "@remix-run/serve": "^1.15.0",
     "@types/react": "^18.0.35",
     "@types/react-dom": "^18.0.11",
+    "env-cmd": "^10.1.0",
     "eslint": "^8.38.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",

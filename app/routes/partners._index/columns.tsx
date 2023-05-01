@@ -1,16 +1,17 @@
-import { Flex, Progress, Text, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
+import { Link } from "react-router-dom";
 
-import type { RowObj } from "./types";
+import type { Item } from "./services";
 
-const columnHelper = createColumnHelper<RowObj>();
+const columnHelper = createColumnHelper<Item>();
 
 export const useColumns = () => {
   const textColor = useColorModeValue("secondaryGray.900", "white");
 
   const columns = [
-    columnHelper.accessor("name", {
-      id: "name",
+    columnHelper.accessor("partner_name", {
+      id: "partner_name",
       header: () => (
         <Text
           justifyContent="space-between"
@@ -21,17 +22,19 @@ export const useColumns = () => {
           NAME
         </Text>
       ),
-      cell: (info: any) => (
+      cell: (info) => (
         <Flex align="center">
-          <Text color={textColor} fontSize="sm" fontWeight="700">
-            {info.getValue()}
-          </Text>
+          <Link to={`/partners/${info.row.original.id}`}>
+            <Text color={textColor} fontSize="sm" fontWeight="700">
+              {info.getValue()}
+            </Text>
+          </Link>
         </Flex>
       ),
     }),
 
-    columnHelper.accessor("date", {
-      id: "date",
+    columnHelper.accessor("created_at", {
+      id: "created_at",
       header: () => (
         <Text
           justifyContent="space-between"
@@ -46,33 +49,6 @@ export const useColumns = () => {
         <Text color={textColor} fontSize="sm" fontWeight="700">
           {info.getValue()}
         </Text>
-      ),
-    }),
-    columnHelper.accessor("progress", {
-      id: "progress",
-      header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: "10px", lg: "12px" }}
-          color="gray.400"
-        >
-          PROGRESS
-        </Text>
-      ),
-      cell: (info) => (
-        <Flex align="center">
-          <Text me="10px" color={textColor} fontSize="sm" fontWeight="700">
-            {info.getValue()}%
-          </Text>
-          <Progress
-            variant="table"
-            colorScheme="brandScheme"
-            h="8px"
-            w="63px"
-            value={info.getValue()}
-          />
-        </Flex>
       ),
     }),
   ];

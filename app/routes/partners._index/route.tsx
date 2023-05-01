@@ -2,6 +2,8 @@ import {
   Box,
   Flex,
   Table,
+  Tbody,
+  Td,
   Text,
   Th,
   Thead,
@@ -14,23 +16,26 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import type { LoaderFunction } from "react-router";
+import { useLoaderData } from "react-router";
 
 import { Card } from "~/components/card";
 
 import { useColumns } from "./columns";
-import type { RowObj } from "./types";
+import type { Item, PartnerPagination } from "./services";
+import { loadPartners } from "./services";
 
-export const handle = {
-  title: "partners",
-};
+export const loader: LoaderFunction = async ({ request }) =>
+  loadPartners(request.url);
 
 export default function Partners() {
   const { columns } = useColumns();
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
+  const data = useLoaderData() as PartnerPagination;
 
-  const table = useReactTable<RowObj>({
-    data: [],
+  const table = useReactTable<Item>({
+    data: data.items,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -88,6 +93,29 @@ export default function Partners() {
               </Tr>
             ))}
           </Thead>
+
+          <Tbody>
+            {table
+              .getRowModel()
+              .rows.slice(0, 11)
+              .map((row) => (
+                <Tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Td
+                      key={cell.id}
+                      fontSize={{ sm: "14px" }}
+                      minW={{ sm: "150px", md: "200px", lg: "auto" }}
+                      borderColor="transparent"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Td>
+                  ))}
+                </Tr>
+              ))}
+          </Tbody>
         </Table>
       </Box>
     </Card>

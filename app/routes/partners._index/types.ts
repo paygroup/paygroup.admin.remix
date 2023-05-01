@@ -1,6 +1,5 @@
 export type RowObj = {
-  name: string;
-  tech: any;
-  date: string;
-  progress: number;
+  id: string;
+  created_at: string;
+  partner_name: string;
 };
