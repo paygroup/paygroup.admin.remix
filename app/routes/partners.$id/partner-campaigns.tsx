@@ -8,6 +8,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 
+import { SmartText } from "~/components/smarts/smart-text";
 import type { partner } from "~/graphql/genql-sdk";
 
 export const PartnerCampaigns: React.FC<{ partner: partner }> = ({
@@ -35,7 +36,7 @@ export const PartnerCampaigns: React.FC<{ partner: partner }> = ({
         {partner.partner_campaigns.map((campaign) => (
           <Tr key={campaign.id}>
             <Td pl="0" fontSize="20" color="secondaryGray.900">
-              {campaign.campaign_title}
+              <SmartText>{campaign.campaign_title}</SmartText>
             </Td>
             <Td />
             <Td pr="0" />

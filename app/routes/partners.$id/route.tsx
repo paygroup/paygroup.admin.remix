@@ -8,7 +8,7 @@ import {
   Divider,
   useDisclosure,
 } from "@chakra-ui/react";
-import type { LoaderFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 import { Card } from "~/components/card";
@@ -17,6 +17,7 @@ import type { partner } from "~/graphql/genql-sdk";
 import { CampaignAddModal } from "./campaign.add";
 import { PartnerCampaigns } from "./partner-campaigns";
 import { PartnerInfo } from "./partner-info";
+import { routeAction } from "./route.action";
 import type { Partner } from "./services";
 import { fetchOnePartner } from "./services";
 import { CampaignStats } from "./stats";
@@ -27,6 +28,10 @@ export const handle = {
 
 export const loader: LoaderFunction = async ({ params }) =>
   fetchOnePartner(params.id!);
+
+export const action: ActionFunction = routeAction;
+
+export const ErrorBoundary = () => <div>Oups!...</div>;
 
 export default function PartnerId() {
   const { isOpen, onOpen, onClose } = useDisclosure();
