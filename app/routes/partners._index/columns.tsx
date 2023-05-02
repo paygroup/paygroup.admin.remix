@@ -1,5 +1,6 @@
 import { Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
+import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
 import type { Item } from "./services";
@@ -47,7 +48,7 @@ export const useColumns = () => {
       ),
       cell: (info) => (
         <Text color={textColor} fontSize="sm" fontWeight="700">
-          {info.getValue()}
+          {dayjs().to(dayjs(info.getValue()))}
         </Text>
       ),
     }),

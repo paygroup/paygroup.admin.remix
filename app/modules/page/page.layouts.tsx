@@ -2,6 +2,7 @@ import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 
 export const PageContent = ({ children }: React.PropsWithChildren) => (
   <Box
+    className="page-content"
     float="right"
     minHeight="100vh"
     height="100%"
@@ -16,6 +17,9 @@ export const PageContent = ({ children }: React.PropsWithChildren) => (
     transitionTimingFunction="linear, linear, ease"
   >
     <Box
+      className="page-content-box"
+      display="flex"
+      flexDirection="column"
       mx="auto"
       p={{ base: "20px", md: "30px" }}
       pe="20px"
@@ -39,7 +43,11 @@ export const MainContent = ({ children }: React.PropsWithChildren) => (
     ps={{
       xl: "12px",
     }}
+    flex={1}
+    display="flex"
+    flexDirection="column"
     pt={{ base: "140px", md: "80px", xl: "24" }}
+    className="main-content"
   >
     {children}
   </Box>

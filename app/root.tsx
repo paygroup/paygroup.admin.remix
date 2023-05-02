@@ -8,28 +8,36 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import dayjs from "dayjs";
+import relative from "dayjs/plugin/relativeTime";
+import nProgressStyles from "nprogress/nprogress.css";
 
+import { useNProgress } from "./modules/nprogress";
 import { MainContent, PageContent, PageNavbar } from "./modules/page";
 import { SideBar } from "./modules/sidebar";
 import { theme } from "./modules/theme";
 import { routeLinks } from "./root.route-links";
 
+dayjs.extend(relative);
+
 export const links: LinksFunction = () => [
   {
     rel: "preconnect",
     href: "https://fonts.googleapis.com",
-    // crossOrigin: "true",
   },
   { rel: "preconnect", href: "https://fonts.gstatic.com" },
   {
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap",
   },
+  { rel: "stylesheet", href: nProgressStyles },
 ];
 
 export const meta: V2_MetaFunction = () => [{ title: "Paygroup admin" }];
 
 export default function App() {
+  useNProgress();
+
   return (
     <html lang="en">
       <head>
@@ -41,7 +49,7 @@ export default function App() {
 
       <body>
         <ChakraProvider theme={theme}>
-          <Box>
+          <Box flex={1} className="root">
             <SideBar routes={routeLinks} />
             <PageContent>
               <PageNavbar routes={routeLinks} />

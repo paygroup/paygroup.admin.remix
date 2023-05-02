@@ -1,16 +1,28 @@
 import { mode } from "@chakra-ui/theme-tools";
 export const globalStyles = {
   colors: {
+    // brand: {
+    //   100: "#E9E3FF",
+    //   200: "#422AFB",
+    //   300: "#422AFB",
+    //   400: "#7551FF",
+    //   500: "#422AFB",
+    //   600: "#3311DB",
+    //   700: "#02044A",
+    //   800: "#190793",
+    //   900: "#11047A",
+    // },
     brand: {
-      100: "#E9E3FF",
-      200: "#422AFB",
-      300: "#422AFB",
-      400: "#7551FF",
-      500: "#422AFB",
-      600: "#3311DB",
-      700: "#02044A",
-      800: "#190793",
-      900: "#11047A",
+      50: "#FAF5FF",
+      100: "##E9D8FD",
+      200: "#D6BCFA",
+      300: "#B794F4",
+      400: "#9F7AEA",
+      500: "#805AD5",
+      600: "#6B46C1",
+      700: "#553C9A",
+      800: "#44337A",
+      900: "#322659",
     },
     brandScheme: {
       100: "#E9E3FF",
@@ -89,12 +101,15 @@ export const globalStyles = {
         bg: mode("secondaryGray.300", "navy.900")(props),
         fontFamily: "Roboto",
         letterSpacing: "-0.5px",
+        "min-height": "100%",
+        display: "flex",
       },
       input: {
         color: "gray.700",
       },
       html: {
         fontFamily: "Roboto",
+        height: "100%",
       },
     }),
   },

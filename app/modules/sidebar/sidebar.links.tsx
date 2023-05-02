@@ -2,32 +2,22 @@
 
 import { NavLink, useLocation } from 'react-router-dom';
 // chakra imports
-import { Box, Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, HStack, Spinner, Text, useColorModeValue } from '@chakra-ui/react';
 import { RoutesType } from '~/types';
+import { useNavigation } from '@remix-run/react';
 
 export function SidebarLinks(props: {
 	routes: RoutesType[];
 }) {
-	//   Chakra color mode
-	let location = useLocation();
-	let activeColor = useColorModeValue('gray.700', 'white');
-	let inactiveColor = useColorModeValue('secondaryGray.600', 'secondaryGray.600');
-	let activeIcon = useColorModeValue('brand.500', 'white');
-	let textColor = useColorModeValue('secondaryGray.500', 'white');
-	let brandColor = useColorModeValue('brand.500', 'brand.400');
-
+	const location = useLocation();
+	const { state, location: nextLocation } = useNavigation();
+	const activeColor = useColorModeValue('gray.700', 'white');
+	const inactiveColor = useColorModeValue('secondaryGray.600', 'secondaryGray.600');
+	const activeIcon = useColorModeValue('brand.500', 'white');
+	const textColor = useColorModeValue('secondaryGray.500', 'white');
+	const brandColor = useColorModeValue('brand.500', 'brand.400');
 	const { routes } = props;
 
-	// verifies if routeName is the one active (in browser input)
-	const activeRoute = (routePath: string) => {
-		const pathname = location.pathname;
-		if (routePath === '/') {
-			return  pathname === '/';
-		}
-		return location.pathname.startsWith(routePath);
-	};
-
-	// this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
 	const createLinks = (
 		routes: RoutesType[], 
 	) => {
@@ -41,26 +31,26 @@ export function SidebarLinks(props: {
 						{route.icon ? (
 							<Box>
 								<HStack
-									spacing={activeRoute(route.path.toLowerCase()) ? '22px' : '26px'}
+									spacing={activeRoute(route.path.toLowerCase(), location) ? '22px' : '26px'}
 									py='5px'
 									ps='10px'>
 									<Flex w='100%' alignItems='center' justifyContent='center'>
 										<Box
-											color={activeRoute(route.path.toLowerCase()) ? activeIcon : textColor}
+											color={activeRoute(route.path.toLowerCase(), location) ? activeIcon : textColor}
 											me='18px' mt="1">
-											{route.icon}
+											{state === 'loading' ? <MaybeShowSpinner to={route.path} location={nextLocation} >{route.icon}</MaybeShowSpinner> : route.icon}
 										</Box>
 										<Text
 											me='auto'
-											color={activeRoute(route.path.toLowerCase()) ? activeColor : textColor}
-											fontWeight={activeRoute(route.path.toLowerCase()) ? 'bold' : 'normal'}>
-											{route.name}
+											color={activeRoute(route.path.toLowerCase(), location) ? activeColor : textColor}
+											fontWeight={activeRoute(route.path.toLowerCase(), location) ? 'bold' : 'normal'}>
+											{state === 'loading' ? route.name : route.name}
 										</Text>
 									</Flex>
 									<Box
 										h='36px'
 										w='4px'
-										bg={activeRoute(route.path.toLowerCase()) ? brandColor : 'transparent'}
+										bg={activeRoute(route.path.toLowerCase(), location) ? brandColor : 'transparent'}
 										borderRadius='5px'
 									/>
 								</HStack>
@@ -68,13 +58,13 @@ export function SidebarLinks(props: {
 						) : (
 							<Box>
 								<HStack
-									spacing={activeRoute(route.path.toLowerCase()) ? '22px' : '26px'}
+									spacing={activeRoute(route.path.toLowerCase(), location) ? '22px' : '26px'}
 									py='5px'
 									ps='10px'>
 									<Text
 										me='auto'
-										color={activeRoute(route.path.toLowerCase()) ? activeColor : inactiveColor}
-										fontWeight={activeRoute(route.path.toLowerCase()) ? 'bold' : 'normal'}>
+										color={activeRoute(route.path.toLowerCase(), location) ? activeColor : inactiveColor}
+										fontWeight={activeRoute(route.path.toLowerCase(), location) ? 'bold' : 'normal'}>
 										{route.name}
 									</Text>
 									<Box h='36px' w='4px' bg='brand.400' borderRadius='5px' />
@@ -86,6 +76,22 @@ export function SidebarLinks(props: {
 			}
 		);
 	};
-	//  BRAND
+	
 	return <>{createLinks(routes)}</>
 }
+
+
+const MaybeShowSpinner = ({ to, location, children }: React.PropsWithChildren<{to: string, location: ReturnType<typeof useLocation>}>) => {
+	const showSpinner = (to === "/" && location.pathname === "/")
+	  || (to !== "/" && location.pathname.startsWith(to));
+
+    return showSpinner ? <Spinner /> : <>{children}</>;
+};
+
+const activeRoute = (routePath: string, location: ReturnType<typeof useLocation>) => {
+	const pathname = location.pathname;
+	if (routePath === '/') {
+		return  pathname === '/';
+	}
+	return location.pathname.startsWith(routePath);
+};
