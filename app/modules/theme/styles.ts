@@ -1,17 +1,6 @@
 import { mode } from "@chakra-ui/theme-tools";
 export const globalStyles = {
   colors: {
-    // brand: {
-    //   100: "#E9E3FF",
-    //   200: "#422AFB",
-    //   300: "#422AFB",
-    //   400: "#7551FF",
-    //   500: "#422AFB",
-    //   600: "#3311DB",
-    //   700: "#02044A",
-    //   800: "#190793",
-    //   900: "#11047A",
-    // },
     brand: {
       50: "#FAF5FF",
       100: "##E9D8FD",
@@ -57,23 +46,6 @@ export const globalStyles = {
       800: "#707EAE",
       900: "#1B2559",
     },
-    red: {
-      100: "#FEEFEE",
-      500: "#EE5D50",
-      600: "#E31A1A",
-    },
-    blue: {
-      50: "#EFF4FB",
-      500: "#3965FF",
-    },
-    orange: {
-      100: "#FFF6DA",
-      500: "#FFB547",
-    },
-    green: {
-      100: "#E6FAF5",
-      500: "#01B574",
-    },
     navy: {
       50: "#d0dcfb",
       100: "#aac0fe",
@@ -85,9 +57,6 @@ export const globalStyles = {
       700: "#1B254B",
       800: "#111c44",
       900: "#0b1437",
-    },
-    gray: {
-      100: "#FAFCFE",
     },
   },
   fonts: {

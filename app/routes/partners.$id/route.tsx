@@ -12,8 +12,11 @@ import type { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 import { Card } from "~/components/card";
+import type { partner } from "~/graphql/genql-sdk";
 
 import { CampaignAddModal } from "./campaign.add";
+import { PartnerCampaigns } from "./partner-campaigns";
+import { PartnerInfo } from "./partner-info";
 import type { Partner } from "./services";
 import { fetchOnePartner } from "./services";
 import { CampaignStats } from "./stats";
@@ -66,12 +69,16 @@ export default function PartnerId() {
             </Button>
           </Flex>
 
-          <Divider />
+          <Divider my="4" />
+
+          <PartnerCampaigns partner={partner as partner} />
         </Card>
       </Flex>
 
       <Flex gridArea="info" flexDirection="column">
-        <Card flex={1}>info</Card>
+        <Card flex={1}>
+          {partner ? <PartnerInfo partner={partner as partner} /> : null}
+        </Card>
       </Flex>
 
       <CampaignAddModal isOpen={isOpen} onClose={onClose} />
