@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import {
@@ -14,7 +14,7 @@ import {
 import type { StringOrNumber } from "@chakra-ui/utils";
 import throttle from "lodash/throttle";
 
-export const LIMIT = 10;
+import type { usePagination } from "./pagination.use";
 
 const Span: React.FC<React.PropsWithChildren<any>> = ({ children }) => (
   <Box mr="2" className="span">
@@ -22,76 +22,56 @@ const Span: React.FC<React.PropsWithChildren<any>> = ({ children }) => (
   </Box>
 );
 
-type PaginationProps = {
-  recordCount: number;
-  pageCount: number;
-  page: StringOrNumber;
-  pageSize: number;
-  onChange: (page?: StringOrNumber) => void;
-  next: boolean;
-  prev: boolean;
-  goNext: () => void;
-  goPrev: () => void;
-};
+type PaginationProps = ReturnType<typeof usePagination>;
 export const Pagination = ({
-  recordCount,
-  pageCount,
   page,
-  prev,
-  next,
-  pageSize,
-  onChange,
+  showing,
+  pageCount,
+  recordCount,
+  canGoNext,
+  canGoPrevious,
   goNext,
-  goPrev,
-}: PaginationProps) => {
-  const showing = useMemo(() => {
-    let showing = pageSize * Number(page);
-    if (showing > recordCount) {
-      showing = recordCount;
-    }
-    return showing;
-  }, [page, pageCount, recordCount]);
-
-  return (
-    <Flex alignItems="center" color="gray.500" className="pagination">
-      <Span>showing</Span>
-      <Span>{showing}</Span>
-      <Span>of</Span>
-      <Span>{recordCount}</Span>
-      <Span>{recordCount > 1 ? "records" : "record"}</Span>
-      <IconButton
-        onClick={prev ? goPrev : undefined}
-        ml="2"
-        aria-label="previous page"
-        colorScheme={prev ? "blue" : undefined}
-        size="sm"
-        opacity={0.8}
-        icon={<ChevronLeftIcon fontSize="2xl" />}
-      />
-      <IconButton
-        onClick={next ? goNext : undefined}
-        ml="1"
-        mr="2"
-        aria-label="next page"
-        colorScheme={next ? "blue" : undefined}
-        size="sm"
-        opacity={0.8}
-        icon={<ChevronRightIcon fontSize="2xl" />}
-      />
-      <PageInput page={page} pageCount={pageCount} onChange={onChange} />
-      <Span>of</Span>
-      <Span>{pageCount}</Span>
-      <Span>{pageCount > 1 ? "pages" : "page"}</Span>
-      <Select display="none" ml="2" defaultValue={10}>
-        <option value={10}>10</option>
-        <option value={20}>20</option>
-        <option value={30}>30</option>
-        <option value={50}>50</option>
-        <option value={100}>100</option>
-      </Select>
-    </Flex>
-  );
-};
+  onChange,
+  goPrevious,
+}: PaginationProps & { onChange: (page?: StringOrNumber) => void }) => (
+  <Flex alignItems="center" color="gray.500" className="pagination">
+    <Span>showing</Span>
+    <Span>{showing}</Span>
+    <Span>of</Span>
+    <Span>{recordCount}</Span>
+    <Span>{recordCount > 1 ? "records" : "record"}</Span>
+    <IconButton
+      onClick={canGoPrevious ? goPrevious : undefined}
+      ml="2"
+      aria-label="previous page"
+      colorScheme={canGoPrevious ? "blue" : undefined}
+      size="sm"
+      opacity={0.8}
+      icon={<ChevronLeftIcon fontSize="2xl" />}
+    />
+    <IconButton
+      onClick={canGoNext ? goNext : undefined}
+      ml="1"
+      mr="2"
+      aria-label="next page"
+      colorScheme={canGoNext ? "blue" : undefined}
+      size="sm"
+      opacity={0.8}
+      icon={<ChevronRightIcon fontSize="2xl" />}
+    />
+    <PageInput page={page} pageCount={pageCount} onChange={onChange} />
+    <Span>of</Span>
+    <Span>{pageCount}</Span>
+    <Span>{pageCount > 1 ? "pages" : "page"}</Span>
+    <Select display="none" ml="2" defaultValue={10}>
+      <option value={10}>10</option>
+      <option value={20}>20</option>
+      <option value={30}>30</option>
+      <option value={50}>50</option>
+      <option value={100}>100</option>
+    </Select>
+  </Flex>
+);
 
 type PageInputProps = {
   page: StringOrNumber;
