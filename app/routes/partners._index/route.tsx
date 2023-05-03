@@ -8,10 +8,16 @@ import { Pagination } from "~/components/pagination";
 import { AddPartnerModal } from "./add.partner.modal";
 import { PartnersTable } from "./route.partners.table";
 import { useRouteTable } from "./route.table.use";
-import { PAGE_SIZE, loadPartners } from "./services";
+import { PAGE_SIZE, loadPartners, routeAction } from "./services";
 
 export const loader: LoaderFunction = async ({ request }) =>
   loadPartners(request.url);
+
+export const action = routeAction;
+
+export const ErrorBoundary = () => (
+  <div>Oups! Partner Creation failed (Contact Administrator)...</div>
+);
 
 export default function Partners() {
   const textColor = useColorModeValue("secondaryGray.900", "white");

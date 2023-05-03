@@ -1,3 +1,7 @@
+import { json } from "@remix-run/node";
+import type { ActionFunction } from "react-router";
+import { z } from "zod";
+
 import { genql } from "~/graphql/genql-cli";
 
 export const PAGE_SIZE = 4;
@@ -39,5 +43,44 @@ export const loadPartners = async (url: string) => {
     }));
 };
 
+export const routeAction: ActionFunction = async ({ request }) => {
+  const form = await request.formData();
+  const values = Object.fromEntries(form.entries());
+  const parsed = schema.safeParse(values);
+
+  if (!parsed.success) {
+    return json(
+      { errors: parsed.error.flatten().fieldErrors },
+      { status: 400 }
+    );
+  }
+  return genql.chain.mutation
+    .insert_partner_one({
+      object: parsed.data,
+    })
+    .get({ id: true })
+    .then(() => json({ done: true }, { status: 200 }))
+    .catch((error) => {
+      console.log(error); // <-- SOS! log this error
+      return json({ fatal: parseFatalError(error) }, { status: 500 });
+    });
+};
+
+const parseFatalError = (error: unknown) => {
+  const string = `${error}`;
+  if (string.includes("Uniqueness violation")) {
+    return "A partner with this title already exists";
+  }
+  return "An unexpected error has occured";
+};
+
 export type PartnerPagination = Awaited<ReturnType<typeof loadPartners>>;
 export type Item = PartnerPagination["items"][0];
+
+const schema = z.object({
+  partner_name: z.string().min(3),
+  partner_phone: z.string().min(10),
+  partner_email: z.string().email(),
+  partner_address: z.string().min(3),
+  partner_description: z.string().min(3),
+});
