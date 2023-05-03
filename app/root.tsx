@@ -1,10 +1,8 @@
-import { Box, ChakraProvider } from "@chakra-ui/react";
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
@@ -13,10 +11,7 @@ import relative from "dayjs/plugin/relativeTime";
 import nProgressStyles from "nprogress/nprogress.css";
 
 import { useNProgress } from "./modules/nprogress";
-import { MainContent, PageContent, PageNavbar } from "./modules/page";
-import { SideBar } from "./modules/sidebar";
-import { theme } from "./modules/theme";
-import { routeLinks } from "./root.route-links";
+import { RootApp } from "./root.app";
 
 dayjs.extend(relative);
 
@@ -48,18 +43,7 @@ export default function App() {
       </head>
 
       <body>
-        <ChakraProvider theme={theme}>
-          <Box flex={1} className="root">
-            <SideBar routes={routeLinks} />
-            <PageContent>
-              <PageNavbar routes={routeLinks} />
-              <MainContent>
-                <Outlet />
-              </MainContent>
-            </PageContent>
-          </Box>
-        </ChakraProvider>
-
+        <RootApp />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
