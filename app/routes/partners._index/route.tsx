@@ -43,7 +43,7 @@ export default function Partners() {
         <Pagination
           prev={table.getCanPreviousPage()}
           next={table.getCanNextPage()}
-          page={table.data.page + 1}
+          page={table.data.page}
           pageSize={PAGE_SIZE}
           recordCount={table.data.recordCount}
           pageCount={table.getPageCount()}
