@@ -1,18 +1,18 @@
 import { genql } from "~/graphql/genql-cli";
 
-const pageLimit = 20;
+export const PAGE_SIZE = 4;
 
 export const loadPartners = async (url: string) => {
   const _url = new URL(url);
   const page = Number(_url.searchParams.get("page") ?? 1);
-  const offset = !page ? 0 : pageLimit * (page - 1);
+  const offset = !page ? 0 : PAGE_SIZE * (page - 1);
 
   return genql
     .query({
       partner: [
         {
           offset,
-          limit: pageLimit,
+          limit: PAGE_SIZE,
           order_by: [{ created_at: "desc" }],
         },
         {
@@ -31,7 +31,10 @@ export const loadPartners = async (url: string) => {
     })
     .then(({ partner, partner_aggregate }) => ({
       page,
-      count: partner_aggregate?.aggregate?.count ?? 0,
+      recordCount: partner_aggregate?.aggregate?.count ?? 0,
+      pageCount: Math.ceil(
+        (partner_aggregate?.aggregate?.count ?? 0) / PAGE_SIZE
+      ),
       items: partner.map((item, i) => ({ ...item, index: offset + i + 1 })),
     }));
 };

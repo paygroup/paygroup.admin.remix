@@ -1,27 +1,165 @@
-import { PaginationComponent } from "./pagination.components";
-import type { UsePaginationProps } from "./pagination.types";
-import { usePagination } from "./pagination.use";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 
-export function Pagination<T>({
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Flex,
+  NumberInput,
+  NumberInputField,
+  IconButton,
+  Select,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import type { StringOrNumber } from "@chakra-ui/utils";
+import throttle from "lodash/throttle";
+
+export const LIMIT = 10;
+
+const Span: React.FC<React.PropsWithChildren<any>> = ({ children }) => (
+  <Box mr="2" className="span">
+    {children}
+  </Box>
+);
+
+type PaginationProps = {
+  recordCount: number;
+  pageCount: number;
+  page: StringOrNumber;
+  pageSize: number;
+  onChange: (page?: StringOrNumber) => void;
+  next: boolean;
+  prev: boolean;
+  goNext: () => void;
+  goPrev: () => void;
+};
+export const Pagination = ({
+  recordCount,
+  pageCount,
   page,
-  data,
+  prev,
+  next,
   pageSize,
-  onPage,
-}: UsePaginationProps<T>) {
-  const paging = usePagination({
-    data,
-    page,
-    pageSize,
-    onPage: onPage,
-  });
+  onChange,
+  goNext,
+  goPrev,
+}: PaginationProps) => {
+  const showing = useMemo(() => {
+    let showing = pageSize * Number(page);
+    if (showing > recordCount) {
+      showing = recordCount;
+    }
+    return showing;
+  }, [page, pageCount, recordCount]);
 
   return (
-    <PaginationComponent
-      {...paging}
-      page={page}
-      onChange={onPage}
-      goNext={paging.increasePage}
-      goPrev={paging.decreasePage}
-    />
+    <Flex alignItems="center" color="gray.500" className="pagination">
+      <Span>showing</Span>
+      <Span>{showing}</Span>
+      <Span>of</Span>
+      <Span>{recordCount}</Span>
+      <Span>{recordCount > 1 ? "records" : "record"}</Span>
+      <IconButton
+        onClick={prev ? goPrev : undefined}
+        ml="2"
+        aria-label="previous page"
+        colorScheme={prev ? "blue" : undefined}
+        size="sm"
+        opacity={0.8}
+        icon={<ChevronLeftIcon fontSize="2xl" />}
+      />
+      <IconButton
+        onClick={next ? goNext : undefined}
+        ml="1"
+        mr="2"
+        aria-label="next page"
+        colorScheme={next ? "blue" : undefined}
+        size="sm"
+        opacity={0.8}
+        icon={<ChevronRightIcon fontSize="2xl" />}
+      />
+      <PageInput page={page} pageCount={pageCount} onChange={onChange} />
+      <Span>of</Span>
+      <Span>{pageCount}</Span>
+      <Span>{pageCount > 1 ? "pages" : "page"}</Span>
+      <Select display="none" ml="2" defaultValue={10}>
+        <option value={10}>10</option>
+        <option value={20}>20</option>
+        <option value={30}>30</option>
+        <option value={50}>50</option>
+        <option value={100}>100</option>
+      </Select>
+    </Flex>
   );
-}
+};
+
+type PageInputProps = {
+  page: StringOrNumber;
+  pageCount: number;
+  onChange: (index?: StringOrNumber) => void;
+};
+const PageInput = ({ page, pageCount, onChange }: PageInputProps) => {
+  const [pageValue, setPageValue] = useState<StringOrNumber>(page ?? 0);
+  const [previousValue, setPreviousValue] = useState<StringOrNumber>(page);
+  const setPageValueThrottle = useCallback(
+    throttle((val: StringOrNumber) => setPageValue(val), 1000),
+    []
+  );
+  const textColor = useColorModeValue("secondaryGray.500", "white");
+
+  const invalidNum = (num: StringOrNumber) =>
+    typeof num !== "number" ||
+    isNaN(num as number) ||
+    (Number(num) === 0 && pageCount > 0);
+  const emptyString = (str: string) => !str.length;
+
+  const handleChange = (str: string, value: number) => {
+    if (emptyString(str)) {
+      setPreviousValue(page);
+      setPageValue(str);
+    } else {
+      if (invalidNum(value)) {
+        return;
+      }
+      if (value < 0 || value > pageCount) {
+        return;
+      }
+      setPageValueThrottle(value);
+    }
+  };
+
+  const handleBlur = () => {
+    if (invalidNum(pageValue)) {
+      setPageValue(previousValue);
+    } else {
+      onChange?.(pageValue);
+    }
+  };
+
+  const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+    if (e.key === "Enter") {
+      onChange?.(pageValue);
+    }
+  };
+
+  useEffect(() => {
+    if (page !== pageValue) {
+      setPageValue(page);
+    }
+  }, [page]);
+
+  return (
+    <NumberInput
+      className="pagination-input"
+      name="page"
+      width={["16"]}
+      mr="2"
+      onBlur={handleBlur}
+      onChange={handleChange}
+      onKeyDown={handleKeyDown}
+      value={pageCount ? pageValue : 0}
+    >
+      <NumberInputField readOnly={!pageCount} color={textColor} />
+    </NumberInput>
+  );
+};

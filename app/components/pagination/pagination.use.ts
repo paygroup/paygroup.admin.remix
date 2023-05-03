@@ -10,13 +10,13 @@ export function usePagination<T>({
   onPage,
   data,
 }: UsePaginationProps<T>) {
-  const itemCount = data?.count ?? 0;
-  const pageCount = Math.ceil(itemCount / pageSize);
+  const recordCount = data?.count ?? 0;
+  const pageCount = Math.ceil(recordCount / pageSize);
 
   const calcShowing = () => {
     let showing = pageSize * Number(page);
-    if (showing > itemCount) {
-      showing = itemCount;
+    if (showing > recordCount) {
+      showing = recordCount;
     }
     return showing;
   };
@@ -25,9 +25,9 @@ export function usePagination<T>({
   const decreasePage = () => onPage?.(Number(page) - 1);
 
   return {
-    itemCount,
-    pageCount,
     data,
+    itemCount: recordCount,
+    pageCount,
     prev: page > 1,
     next: page < pageCount,
     showing: calcShowing(),
