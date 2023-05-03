@@ -5,53 +5,36 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import { usePagination } from "~/components/pagination";
+
 import { useColumns } from "./columns";
-import type { Item, PartnerPagination } from "./services";
-import { PAGE_SIZE } from "./services";
+import type { PartnerItem, PartnerPagination } from "./services";
 
 export const useRouteTable = () => {
   const navigate = useNavigate();
   const { columns } = useColumns();
   const data = useLoaderData() as PartnerPagination;
 
-  const {
-    getHeaderGroups,
-    getRowModel,
-    getCanNextPage,
-    getCanPreviousPage,
-    getPageCount,
-    nextPage,
-    previousPage,
-  } = useReactTable<Item>({
+  const paging = usePagination<PartnerItem>({
+    items: data.items,
+    recordCount: data.recordCount,
+    page: data.page,
+    onPage: (page) => {
+      navigate(`/partners?page=${page}`);
+    },
+  });
+
+  const { getHeaderGroups, getRowModel } = useReactTable<PartnerItem>({
     columns,
     data: data.items,
     manualPagination: true,
-    pageCount: data.pageCount,
-    state: {
-      pagination: {
-        pageIndex: data.page - 1,
-        pageSize: PAGE_SIZE,
-      },
-    },
-    onPaginationChange: (nextPagination: any) => {
-      const next = nextPagination({
-        pageIndex: data.page,
-        pageSize: PAGE_SIZE,
-      });
-      navigate(`/partners?page=${next.pageIndex + 1}`);
-    },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
   });
 
   return {
-    data,
+    paging,
     getHeaderGroups,
     getRowModel,
-    getCanNextPage,
-    getCanPreviousPage,
-    getPageCount,
-    nextPage,
-    previousPage,
   };
 };

@@ -2,21 +2,21 @@ import { json } from "@remix-run/node";
 import type { ActionFunction } from "react-router";
 import { z } from "zod";
 
+import { PAGE_SIZE } from "~/constants";
 import { genql } from "~/graphql/genql-cli";
-
-export const PAGE_SIZE = 4;
 
 export const loadPartners = async (url: string) => {
   const _url = new URL(url);
   const page = Number(_url.searchParams.get("page") ?? 1);
-  const offset = !page ? 0 : PAGE_SIZE * (page - 1);
+  const limit = Number(_url.searchParams.get("limit") ?? PAGE_SIZE);
+  const offset = !page ? 0 : limit * (page - 1);
 
   return genql
     .query({
       partner: [
         {
           offset,
-          limit: PAGE_SIZE,
+          limit,
           order_by: [{ created_at: "desc" }],
         },
         {
@@ -75,7 +75,7 @@ const parseFatalError = (error: unknown) => {
 };
 
 export type PartnerPagination = Awaited<ReturnType<typeof loadPartners>>;
-export type Item = PartnerPagination["items"][0];
+export type PartnerItem = PartnerPagination["items"][0];
 
 const schema = z.object({
   partner_name: z.string().min(3),

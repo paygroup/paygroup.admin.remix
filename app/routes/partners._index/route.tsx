@@ -8,7 +8,7 @@ import { Pagination } from "~/components/pagination";
 import { AddPartnerModal } from "./add.partner.modal";
 import { PartnersTable } from "./route.partners.table";
 import { useRouteTable } from "./route.table.use";
-import { PAGE_SIZE, loadPartners, routeAction } from "./services";
+import { loadPartners, routeAction } from "./services";
 
 export const loader: LoaderFunction = async ({ request }) =>
   loadPartners(request.url);
@@ -47,17 +47,10 @@ export default function Partners() {
         </Flex>
 
         <Pagination
-          prev={table.getCanPreviousPage()}
-          next={table.getCanNextPage()}
-          page={table.data.page}
-          pageSize={PAGE_SIZE}
-          recordCount={table.data.recordCount}
-          pageCount={table.getPageCount()}
+          {...table.paging}
           onChange={(page) => {
             navigate(`/partners?page=${page}`);
           }}
-          goNext={table.nextPage}
-          goPrev={table.previousPage}
         />
       </Flex>
 

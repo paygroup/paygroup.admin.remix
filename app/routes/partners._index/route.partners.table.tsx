@@ -11,11 +11,11 @@ import {
 import type { HeaderGroup, RowModel } from "@tanstack/react-table";
 import { flexRender } from "@tanstack/react-table";
 
-import type { Item } from "./services";
+import type { PartnerItem } from "./services";
 
 export const PartnersTable: React.FC<{
-  columnGroups: HeaderGroup<Item>[];
-  rowModel: RowModel<Item>;
+  columnGroups: HeaderGroup<PartnerItem>[];
+  rowModel: RowModel<PartnerItem>;
 }> = ({ columnGroups, rowModel }) => {
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
 
