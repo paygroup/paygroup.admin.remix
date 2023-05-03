@@ -17,9 +17,8 @@ import type { partner } from "~/graphql/genql-sdk";
 import { CampaignAddModal } from "./campaign.add";
 import { PartnerCampaigns } from "./partner-campaigns";
 import { PartnerInfo } from "./partner-info";
-import { routeAction } from "./route.action";
 import type { Partner } from "./services";
-import { fetchOnePartner } from "./services";
+import { routeAction, fetchOnePartner } from "./services";
 import { CampaignStats } from "./stats";
 
 export const handle = {

@@ -29,8 +29,7 @@ import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 
 import type { partner_campaign } from "~/graphql/genql-sdk";
-
-import type { RouteAction } from "./types";
+import type { RouteAction } from "~/types";
 
 export const CampaignAddModal: React.FC<{
   isOpen: boolean;
@@ -47,7 +46,7 @@ export const CampaignAddModal: React.FC<{
       size="xl"
       isOpen={isOpen}
       onClose={onClose}
-      closeOnOverlayClick={state !== "submitting"}
+      closeOnOverlayClick={state === "idle"}
     >
       <ModalOverlay />
       <ModalContent>
@@ -159,7 +158,11 @@ export const CampaignAddModal: React.FC<{
             >
               Create
             </Button>
-            <Button colorScheme="red" ml={3} onClick={onClose}>
+            <Button
+              colorScheme="red"
+              ml={3}
+              onClick={state === "idle" ? onClose : undefined}
+            >
               Cancel
             </Button>
           </ModalFooter>

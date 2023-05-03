@@ -2,28 +2,12 @@ import type { StringOrNumber } from "@chakra-ui/utils";
 export type FocusStatus = "idle" | "focus-in" | "focus-out";
 
 export type UsePaginationProps<T> = {
-  pageSize?: number;
+  items: T[];
   page: number;
+  pageSize?: number;
+  recordCount: number;
   onPage: (page?: StringOrNumber | undefined) => void;
-  data: {
-    count: number;
-    items: T[];
-  };
 };
-
-// export type PaginationProps = {
-//   showing: boolean;
-//   itemCount: number;
-//   pageCount: number;
-//   displayIndex: number;
-//   onChange: (e: unknown) => void;
-//   onFocus: (e: unknown) => void;
-//   onBlur: (e: unknown, returnKeyPressed?: boolean) => void;
-//   next: boolean;
-//   prev: boolean;
-//   goNext: () => void;
-//   goPrev: () => void;
-// };
 
 export type PageButtonProps = {
   icon: string;

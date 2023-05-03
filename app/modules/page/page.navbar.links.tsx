@@ -14,6 +14,7 @@ import {
   useColorModeValue,
   useColorMode,
 } from "@chakra-ui/react";
+import { useClerk } from "@clerk/remix";
 import { FaEthereum } from "react-icons/fa";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { MdNotificationsNone } from "react-icons/md";
@@ -28,8 +29,9 @@ export default function NavBarLinks(props: {
   routes: RoutesType[];
 }) {
   const { secondary, routes } = props;
+  const { user, signOut } = useClerk();
+
   const { colorMode, toggleColorMode } = useColorMode();
-  // Chakra Color Mode
   const navbarIcon = useColorModeValue("gray.400", "white");
   let menuBg = useColorModeValue("white", "navy.800");
   const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -193,7 +195,7 @@ export default function NavBarLinks(props: {
               fontWeight="700"
               color={textColor}
             >
-              👋&nbsp; Hey, Seya
+              👋&nbsp; Hey, {user?.fullName ?? "there"}
             </Text>
           </Flex>
           <Flex flexDirection="column" p="10px">
@@ -211,6 +213,9 @@ export default function NavBarLinks(props: {
               color="red.400"
               borderRadius="8px"
               px="14px"
+              onClick={() => {
+                signOut();
+              }}
             >
               <Text fontSize="sm">Log out</Text>
             </MenuItem>
