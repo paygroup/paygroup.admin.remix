@@ -44,7 +44,7 @@ export const Pagination = ({
       onClick={canGoPrevious ? goPrevious : undefined}
       ml="2"
       aria-label="previous page"
-      colorScheme={canGoPrevious ? "blue" : undefined}
+      colorScheme={canGoPrevious ? "brand" : undefined}
       size="sm"
       opacity={0.8}
       icon={<ChevronLeftIcon fontSize="2xl" />}
@@ -54,7 +54,7 @@ export const Pagination = ({
       ml="1"
       mr="2"
       aria-label="next page"
-      colorScheme={canGoNext ? "blue" : undefined}
+      colorScheme={canGoNext ? "brand" : undefined}
       size="sm"
       opacity={0.8}
       icon={<ChevronRightIcon fontSize="2xl" />}

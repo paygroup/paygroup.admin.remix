@@ -1,4 +1,17 @@
-import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
+import { ChakraProvider } from "@chakra-ui/react";
+import {
+  ClerkCatchBoundary,
+  ClerkApp,
+  SignIn,
+  SignedIn,
+  SignedOut,
+} from "@clerk/remix";
+import { rootAuthLoader } from "@clerk/remix/ssr.server";
+import type {
+  LinksFunction,
+  LoaderFunction,
+  V2_MetaFunction,
+} from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -11,7 +24,9 @@ import relative from "dayjs/plugin/relativeTime";
 import nProgressStyles from "nprogress/nprogress.css";
 
 import { useNProgress } from "./modules/nprogress";
+import { appTheme } from "./modules/theme";
 import { RootApp } from "./root.app";
+import { AuthLayout } from "./root.auth.layout";
 
 dayjs.extend(relative);
 
@@ -30,7 +45,11 @@ export const links: LinksFunction = () => [
 
 export const meta: V2_MetaFunction = () => [{ title: "Paygroup admin" }];
 
-export default function App() {
+export const CatchBoundary = ClerkCatchBoundary();
+
+export const loader: LoaderFunction = (args) => rootAuthLoader(args);
+
+function App() {
   useNProgress();
 
   return (
@@ -43,7 +62,17 @@ export default function App() {
       </head>
 
       <body>
-        <RootApp />
+        <ChakraProvider theme={appTheme}>
+          <SignedIn>
+            <RootApp />
+          </SignedIn>
+
+          <SignedOut>
+            <AuthLayout>
+              <SignIn />
+            </AuthLayout>
+          </SignedOut>
+        </ChakraProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -51,3 +80,5 @@ export default function App() {
     </html>
   );
 }
+
+export default ClerkApp(App);
