@@ -3,9 +3,9 @@ import { createColumnHelper } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
-import type { Item } from "./services";
+import type { PartnerItem } from "./services";
 
-const columnHelper = createColumnHelper<Item>();
+const columnHelper = createColumnHelper<PartnerItem>();
 
 export const useColumns = () => {
   const textColor = useColorModeValue("secondaryGray.900", "white");

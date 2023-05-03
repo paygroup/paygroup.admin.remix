@@ -1,10 +1,21 @@
-import { Box, ChakraProvider } from "@chakra-ui/react";
-import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
+import { ChakraProvider } from "@chakra-ui/react";
+import {
+  ClerkCatchBoundary,
+  ClerkApp,
+  SignIn,
+  SignedIn,
+  SignedOut,
+} from "@clerk/remix";
+import { rootAuthLoader } from "@clerk/remix/ssr.server";
+import type {
+  LinksFunction,
+  LoaderFunction,
+  V2_MetaFunction,
+} from "@remix-run/node";
 import {
   Links,
   LiveReload,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
@@ -13,10 +24,9 @@ import relative from "dayjs/plugin/relativeTime";
 import nProgressStyles from "nprogress/nprogress.css";
 
 import { useNProgress } from "./modules/nprogress";
-import { MainContent, PageContent, PageNavbar } from "./modules/page";
-import { SideBar } from "./modules/sidebar";
-import { theme } from "./modules/theme";
-import { routeLinks } from "./root.route-links";
+import { appTheme } from "./modules/theme";
+import { RootApp } from "./root.app";
+import { AuthLayout } from "./root.auth.layout";
 
 dayjs.extend(relative);
 
@@ -35,7 +45,11 @@ export const links: LinksFunction = () => [
 
 export const meta: V2_MetaFunction = () => [{ title: "Paygroup admin" }];
 
-export default function App() {
+export const CatchBoundary = ClerkCatchBoundary();
+
+export const loader: LoaderFunction = (args) => rootAuthLoader(args);
+
+function App() {
   useNProgress();
 
   return (
@@ -48,18 +62,17 @@ export default function App() {
       </head>
 
       <body>
-        <ChakraProvider theme={theme}>
-          <Box flex={1} className="root">
-            <SideBar routes={routeLinks} />
-            <PageContent>
-              <PageNavbar routes={routeLinks} />
-              <MainContent>
-                <Outlet />
-              </MainContent>
-            </PageContent>
-          </Box>
-        </ChakraProvider>
+        <ChakraProvider theme={appTheme}>
+          <SignedIn>
+            <RootApp />
+          </SignedIn>
 
+          <SignedOut>
+            <AuthLayout>
+              <SignIn />
+            </AuthLayout>
+          </SignedOut>
+        </ChakraProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -67,3 +80,5 @@ export default function App() {
     </html>
   );
 }
+
+export default ClerkApp(App);

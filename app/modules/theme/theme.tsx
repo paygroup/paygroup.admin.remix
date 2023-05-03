@@ -13,7 +13,7 @@ import { switchStyles } from "./components/switch";
 import { textareaStyles } from "./components/textarea";
 import { globalStyles } from "./styles";
 
-export const theme = extendTheme(
+export const appTheme = extendTheme(
   globalStyles,
   breakpoints,
   badgeStyles,
