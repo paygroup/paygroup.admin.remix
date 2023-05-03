@@ -29,7 +29,7 @@ export const useRouteTable = () => {
     pageCount: data.pageCount,
     state: {
       pagination: {
-        pageIndex: data.page,
+        pageIndex: data.page - 1,
         pageSize: PAGE_SIZE,
       },
     },
@@ -38,7 +38,7 @@ export const useRouteTable = () => {
         pageIndex: data.page,
         pageSize: PAGE_SIZE,
       });
-      navigate(`/partners?page=${next.pageIndex}`);
+      navigate(`/partners?page=${next.pageIndex + 1}`);
     },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
