@@ -5,6 +5,7 @@ import {
   SignIn,
   SignedIn,
   SignedOut,
+  useUser,
 } from "@clerk/remix";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import type {
@@ -51,6 +52,7 @@ export const loader: LoaderFunction = (args) => rootAuthLoader(args);
 
 function App() {
   useNProgress();
+  const { isLoaded, isSignedIn, user } = useUser();
 
   return (
     <html lang="en">
@@ -63,6 +65,7 @@ function App() {
 
       <body>
         <ChakraProvider theme={appTheme}>
+          <div>status: {JSON.stringify({ isLoaded, isSignedIn, user })}</div>
           <SignedIn>
             <RootApp />
           </SignedIn>
