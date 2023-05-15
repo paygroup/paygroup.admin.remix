@@ -5,7 +5,6 @@ import {
   SignIn,
   SignedIn,
   SignedOut,
-  useUser,
 } from "@clerk/remix";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import type {
@@ -83,3 +82,4 @@ function App() {
 }
 
 export default ClerkApp(App);
+// dummy
