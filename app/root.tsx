@@ -1,5 +1,14 @@
+import { useEffect } from "react";
+
 import { ChakraProvider } from "@chakra-ui/react";
-import { ClerkCatchBoundary, ClerkApp, SignIn, useAuth } from "@clerk/remix";
+import {
+  ClerkCatchBoundary,
+  ClerkApp,
+  SignIn,
+  useAuth,
+  SignedIn,
+  SignedOut,
+} from "@clerk/remix";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import type {
   LinksFunction,
@@ -46,6 +55,13 @@ export const loader: LoaderFunction = (args) => rootAuthLoader(args);
 function App() {
   useNProgress();
   const { isSignedIn } = useAuth();
+  console.log("isSignedIn", isSignedIn);
+
+  useEffect(() => {
+    if (isSignedIn) {
+      console.log("isSignedIn", isSignedIn);
+    }
+  }, [isSignedIn]);
 
   return (
     <html lang="en">
@@ -58,13 +74,7 @@ function App() {
 
       <body>
         <ChakraProvider theme={appTheme}>
-          {isSignedIn && <RootApp />}
-          {!isSignedIn && (
-            <AuthLayout>
-              <SignIn />
-            </AuthLayout>
-          )}
-          {/* <SignedIn>
+          <SignedIn>
             <RootApp />
           </SignedIn>
 
@@ -72,7 +82,7 @@ function App() {
             <AuthLayout>
               <SignIn />
             </AuthLayout>
-          </SignedOut> */}
+          </SignedOut>
         </ChakraProvider>
         <ScrollRestoration />
         <Scripts />
