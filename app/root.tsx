@@ -12,6 +12,7 @@ import type {
   LoaderFunction,
   V2_MetaFunction,
 } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -47,7 +48,13 @@ export const meta: V2_MetaFunction = () => [{ title: "Paygroup admin" }];
 
 export const CatchBoundary = ClerkCatchBoundary();
 
-export const loader: LoaderFunction = (args) => rootAuthLoader(args);
+export const loader: LoaderFunction = (args) =>
+  rootAuthLoader(args, ({ request }) => {
+    if (!request.auth.userId && !request.url.includes("sign-in")) {
+      return redirect("/sign-in");
+    }
+    return {};
+  });
 
 function App() {
   useNProgress();
