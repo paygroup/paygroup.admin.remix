@@ -1,0 +1,19 @@
+Remix-Run: After successful login the flags "isSignedIn" is undefined and "isLoaded" is false.
+
+
+I'm using clerkdev in my remix-run application. I have carefully followed the official remix-run tutorial (https://clerk.com/docs/quickstarts/get-started-with-remix?utm_source=www.google.com&utm_medium=referral&utm_campaign=none). In my root component,  I'm using the useAuth()  to check whether user is logged in or not. The flag `isSignedIn` is always undefined unless manual page refresh and the flag `isLoaded` is always false unless manual page refresh.
+
+Even the built-in `SignedIn` component requires manual page refresh to display its children.
+
+Here I'm sharing the Github repository project with this project  (`branch develop`):
+https://github.com/paygroup/paygroup.admin/tree/develop
+
+download repository and install dependencies
+```
+yarn install
+```
+
+run with command:
+```
+yarn dev:remote
+```
