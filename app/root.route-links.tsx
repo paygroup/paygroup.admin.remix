@@ -6,7 +6,7 @@ import type { RoutesType } from "./types";
 export const routeLinks: RoutesType[] = [
   {
     name: "Home",
-    path: "/",
+    path: "/home",
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
   },
   {

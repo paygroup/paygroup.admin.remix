@@ -1,11 +1,11 @@
+import { redirect } from "react-router";
+
 export const handle = {
   title: "home",
 };
 
+export const loader = () => redirect("/home");
+
 export default function Index() {
-  return (
-    <div style={{ lineHeight: "1.4" }}>
-      <h1>Welcome to Remix</h1>
-    </div>
-  );
+  return <div>index</div>;
 }

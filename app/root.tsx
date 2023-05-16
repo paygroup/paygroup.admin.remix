@@ -1,13 +1,18 @@
-import { useEffect } from "react";
-
 import { ChakraProvider } from "@chakra-ui/react";
-import { ClerkCatchBoundary, ClerkApp, SignIn, useAuth } from "@clerk/remix";
+import {
+  ClerkCatchBoundary,
+  ClerkApp,
+  SignIn,
+  SignedIn,
+  SignedOut,
+} from "@clerk/remix";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import type {
   LinksFunction,
   LoaderFunction,
   V2_MetaFunction,
 } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -43,25 +48,16 @@ export const meta: V2_MetaFunction = () => [{ title: "Paygroup admin" }];
 
 export const CatchBoundary = ClerkCatchBoundary();
 
-export const loader: LoaderFunction = (args) => rootAuthLoader(args);
+export const loader: LoaderFunction = (args) =>
+  rootAuthLoader(args, ({ request }) => {
+    if (!request.auth.userId && !request.url.includes("sign-in")) {
+      return redirect("/sign-in");
+    }
+    return {};
+  });
 
 function App() {
   useNProgress();
-
-  const { isSignedIn, isLoaded } = useAuth();
-
-  useEffect(() => {
-    console.log(
-      JSON.stringify(
-        {
-          isLoaded, // <-- always false unless manually refreshed
-          isSignedIn, // <-- always undefined unless manually refreshed
-        },
-        null,
-        2
-      )
-    );
-  }, [isSignedIn, isLoaded]);
 
   return (
     <html lang="en">
@@ -74,14 +70,7 @@ function App() {
 
       <body>
         <ChakraProvider theme={appTheme}>
-          {isLoaded && isSignedIn && <RootApp />}
-          {isLoaded && !isSignedIn && (
-            <AuthLayout>
-              <SignIn />
-            </AuthLayout>
-          )}
-
-          {/* <SignedIn>
+          <SignedIn>
             <RootApp />
           </SignedIn>
 
@@ -89,7 +78,7 @@ function App() {
             <AuthLayout>
               <SignIn />
             </AuthLayout>
-          </SignedOut> */}
+          </SignedOut>
         </ChakraProvider>
         <ScrollRestoration />
         <Scripts />

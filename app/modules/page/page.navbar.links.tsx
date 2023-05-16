@@ -15,6 +15,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { useClerk } from "@clerk/remix";
+import { useNavigate } from "@remix-run/react";
 import { FaEthereum } from "react-icons/fa";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { MdNotificationsNone } from "react-icons/md";
@@ -30,6 +31,7 @@ export default function NavBarLinks(props: {
 }) {
   const { secondary, routes } = props;
   const { user, signOut } = useClerk();
+  const navigate = useNavigate();
 
   const { colorMode, toggleColorMode } = useColorMode();
   const navbarIcon = useColorModeValue("gray.400", "white");
@@ -214,7 +216,9 @@ export default function NavBarLinks(props: {
               borderRadius="8px"
               px="14px"
               onClick={() => {
-                signOut();
+                signOut().then(() => {
+                  navigate("/sign-in");
+                });
               }}
             >
               <Text fontSize="sm">Log out</Text>
