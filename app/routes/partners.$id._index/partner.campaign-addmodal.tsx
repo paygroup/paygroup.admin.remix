@@ -31,7 +31,7 @@ import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import type { partner_campaign } from "~/graphql/genql-sdk";
 import type { RouteAction } from "~/types";
 
-export const CampaignAddModal: React.FC<{
+export const PartnerCampaignAddModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ isOpen, onClose }) => {

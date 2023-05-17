@@ -4,9 +4,9 @@ import { Button, Text, Flex, Divider } from "@chakra-ui/react";
 import { Card } from "~/components/card";
 import type { partner } from "~/graphql/genql-sdk";
 
-import { PartnerCampaignsTable } from "./partner.campaigns.table";
+import { PartnerCampaignsTable } from "./partner.campaign-table";
 
-export const PartnerCampaignsCard: React.FC<{
+export const PartnerCampaignsTableList: React.FC<{
   partner: partner;
   onOpen: () => void;
 }> = ({ partner, onOpen }) => (

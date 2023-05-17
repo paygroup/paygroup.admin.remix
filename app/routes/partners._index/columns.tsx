@@ -25,7 +25,7 @@ export const useColumns = () => {
       ),
       cell: (info) => (
         <Flex align="center">
-          <Link to={`/partners/${info.row.original.id}/dash`}>
+          <Link to={`/partners/${info.row.original.id}`}>
             <Text color={textColor} fontSize="sm" fontWeight="700">
               {info.getValue()}
             </Text>

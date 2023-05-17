@@ -35,7 +35,7 @@ export const PartnerCampaignsTable: React.FC<{ partner: partner }> = ({
       <Tbody>
         {partner.partner_campaigns.map((campaign) => (
           <Tr key={campaign.id}>
-            <Td pl="0" fontSize="20" color="secondaryGray.900">
+            <Td pl="0" fontSize="lg" color="secondaryGray.900">
               <SmartText>{campaign.campaign_title}</SmartText>
             </Td>
             <Td />

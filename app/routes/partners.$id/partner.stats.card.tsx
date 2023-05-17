@@ -1,4 +1,13 @@
-import { Box, Icon, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import {
+  Icon,
+  SimpleGrid,
+  Flex,
+  Button,
+  useColorModeValue,
+  Box,
+} from "@chakra-ui/react";
+import { BsBoxArrowUpRight } from "react-icons/bs";
 import { MdAttachMoney, MdBarChart } from "react-icons/md";
 
 import { Card } from "~/components/card";
@@ -12,7 +21,24 @@ export const PartnerStatsCard: React.FC<{ partner: partner }> = () => {
 
   return (
     <Card>
+      <Flex alignItems="center">
+        <Flex alignItems="center">
+          <MiniStats growth="+23%" name="Balance" value="$574.34" />
+          <Button
+            px="6"
+            size="sm"
+            onClick={() => {}}
+            variant="brand"
+            leftIcon={<Icon as={BsBoxArrowUpRight} />}
+          >
+            withdraw
+          </Button>
+        </Flex>
+        <Box flex={1} />
+      </Flex>
+
       <SimpleGrid
+        display="none"
         gap="20px"
         columns={{ base: 1, md: 2, lg: 3, "2xl": 4 }}
         alignItems="flex-start"
@@ -47,9 +73,25 @@ export const PartnerStatsCard: React.FC<{ partner: partner }> = () => {
           value="$642.39"
         />
 
-        <Box justifySelf="stretch">
+        <Flex alignItems="center">
           <MiniStats growth="+23%" name="Balance" value="$574.34" />
-        </Box>
+          <Button
+            ml="4"
+            size="sm"
+            onClick={() => {}}
+            variant="brand"
+            leftIcon={<AddIcon />}
+          >
+            add
+          </Button>
+          {/* <Button
+            ml="2"
+            variant="brand"
+            leftIcon={<Icon as={BsBoxArrowUpRight} />}
+          >
+            withdraw
+          </Button> */}
+        </Flex>
       </SimpleGrid>
     </Card>
   );
