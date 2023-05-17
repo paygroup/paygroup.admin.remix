@@ -11,7 +11,7 @@ import {
 import { SmartText } from "~/components/smarts/smart-text";
 import type { partner } from "~/graphql/genql-sdk";
 
-export const PartnerCampaigns: React.FC<{ partner: partner }> = ({
+export const PartnerCampaignsTable: React.FC<{ partner: partner }> = ({
   partner,
 }) => (
   <TableContainer>

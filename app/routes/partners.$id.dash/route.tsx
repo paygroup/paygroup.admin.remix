@@ -1,13 +1,4 @@
-import { AddIcon } from "@chakra-ui/icons";
-import {
-  Button,
-  Text,
-  Box,
-  Flex,
-  Grid,
-  Divider,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
@@ -15,11 +6,12 @@ import { Card } from "~/components/card";
 import type { partner } from "~/graphql/genql-sdk";
 
 import { CampaignAddModal } from "./campaign.add";
-import { PartnerCampaigns } from "./partner-campaigns";
 import { PartnerInfo } from "./partner-info";
+import { PartnerCampaignsCard } from "./partner.campaigns.card";
+import { PartnerGrid } from "./partner.grid";
+import { PartnerStatsCard } from "./partner.stats.card";
 import type { Partner } from "./services";
 import { routeAction, fetchOnePartner } from "./services";
-import { CampaignStats } from "./stats";
 
 export const handle = {
   title: "view partner",
@@ -37,46 +29,13 @@ export default function PartnerId() {
   const { partner } = useLoaderData<{ partner: Partner }>();
 
   return (
-    <Grid
-      px="4"
-      flex={1}
-      templateAreas="
-        'stats info'
-        'main   info'
-      "
-      rowGap={20}
-      columnGap={8}
-      templateColumns="1fr 30%"
-      templateRows="30px 1fr"
-    >
+    <PartnerGrid>
       <Box gridArea="stats">
-        <Card>
-          <CampaignStats />
-        </Card>
+        <PartnerStatsCard partner={partner as partner} />
       </Box>
 
       <Flex mt="16" gridArea="main" flexDirection="column">
-        <Card flex={1}>
-          <Flex alignItems="center">
-            <Text fontSize="32" color="brand.500">
-              Campaigns
-            </Text>
-
-            <Button
-              ml="4"
-              size="sm"
-              onClick={onOpen}
-              variant="brand"
-              leftIcon={<AddIcon />}
-            >
-              add
-            </Button>
-          </Flex>
-
-          <Divider my="4" />
-
-          <PartnerCampaigns partner={partner as partner} />
-        </Card>
+        <PartnerCampaignsCard partner={partner as partner} onOpen={onOpen} />
       </Flex>
 
       <Flex gridArea="info" flexDirection="column">
@@ -86,6 +45,6 @@ export default function PartnerId() {
       </Flex>
 
       <CampaignAddModal isOpen={isOpen} onClose={onClose} />
-    </Grid>
+    </PartnerGrid>
   );
 }
