@@ -1,5 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 
 import { Card } from "~/components/card";
@@ -7,24 +7,24 @@ import type { partner } from "~/graphql/genql-sdk";
 
 import { PartnerInfo } from "./partner-info";
 import { PartnerGrid } from "./partner.grid";
-import { PartnerStatsCard } from "./partner.stats.card";
-import type { Partner } from "./services";
-import { routeAction, fetchOnePartner } from "./services";
+import { PartnerHeader } from "./partner.header.card";
+import { fetchPartnerData } from "./route.services";
 
 export const handle = {
   title: "view partner",
 };
 
 export const loader: LoaderFunction = async ({ params }) =>
-  fetchOnePartner(params.id!);
+  fetchPartnerData(params.id!);
 
 export default function PartnerId() {
-  const { partner } = useLoaderData<{ partner: Partner }>();
+  const { partner, balance } =
+    useLoaderData<Awaited<ReturnType<typeof fetchPartnerData>>>();
 
   return (
     <PartnerGrid>
       <Box gridArea="stats">
-        <PartnerStatsCard partner={partner as partner} />
+        <PartnerHeader partner={partner as partner} balance={balance} />
       </Box>
 
       <Flex mt="16" gridArea="main" flexDirection="column">

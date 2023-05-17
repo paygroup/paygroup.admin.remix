@@ -1,29 +1,55 @@
-import { useDisclosure } from "@chakra-ui/react";
+import {
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  TabIndicator,
+} from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 
-import type { partner } from "~/graphql/genql-sdk";
+import { Card } from "~/components/card";
 
-import { PartnerCampaignAddModal } from "./partner.campaign-addmodal";
-import { PartnerCampaignsTableList } from "./partner.campaign-list";
-import { Partner, routeAction } from "./partner.services";
-import { fetchOnePartner } from "./partner.services";
+import { partnerAction } from "./partner.action";
+import { partnerLoader } from "./partner.loader";
+import { PartnerTabsCampaigns } from "./partner.tabs.campaigns";
 
 export const loader: LoaderFunction = async ({ params }) =>
-  fetchOnePartner(params.id!);
+  partnerLoader(params.id as string);
 
-  export const action: ActionFunction = routeAction;
+export const action: ActionFunction = partnerAction;
 
-  export const ErrorBoundary = () => <div>Oups!...</div>;
+export const ErrorBoundary = () => <div>Oups!...</div>;
 
 export default function PartnerIdIndex() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { partner } = useLoaderData<{ partner: Partner }>();
-
   return (
-    <>
-      <PartnerCampaignsTableList partner={partner as partner} onOpen={onOpen} />
-      <PartnerCampaignAddModal isOpen={isOpen} onClose={onClose} />
-    </>
+    <Card flex={1}>
+      <Tabs>
+        <TabList>
+          <Tab>Campaigns</Tab>
+          <Tab>Payments</Tab>
+          <Tab>Members</Tab>
+        </TabList>
+
+        <TabIndicator
+          mt="-1.5px"
+          height="2px"
+          bg="blue.500"
+          borderRadius="1px"
+        />
+
+        <TabPanels>
+          <TabPanel>
+            <PartnerTabsCampaigns />
+          </TabPanel>
+          <TabPanel>
+            <p>two!</p>
+          </TabPanel>
+          <TabPanel>
+            <p>three!</p>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Card>
   );
 }

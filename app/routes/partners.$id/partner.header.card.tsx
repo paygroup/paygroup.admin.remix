@@ -6,6 +6,7 @@ import {
   Button,
   useColorModeValue,
   Box,
+  Divider,
 } from "@chakra-ui/react";
 import { BsBoxArrowUpRight } from "react-icons/bs";
 import { MdAttachMoney, MdBarChart } from "react-icons/md";
@@ -15,15 +16,23 @@ import { IconBox } from "~/components/icon-box";
 import { MiniStats } from "~/components/mini-stats";
 import type { partner } from "~/graphql/genql-sdk";
 
-export const PartnerStatsCard: React.FC<{ partner: partner }> = () => {
+export const PartnerHeader: React.FC<{ partner: partner; balance: number }> = ({
+  balance,
+}) => {
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
+
+  const balanceValue = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
+  }).format(balance);
 
   return (
     <Card>
       <Flex alignItems="center">
         <Flex alignItems="center">
-          <MiniStats growth="+23%" name="Balance" value="$574.34" />
+          <MiniStats growth="+23%" name="Balance" value={balanceValue} />
           <Button
             px="6"
             size="sm"
@@ -36,6 +45,8 @@ export const PartnerStatsCard: React.FC<{ partner: partner }> = () => {
         </Flex>
         <Box flex={1} />
       </Flex>
+
+      <Divider my="4" />
 
       <SimpleGrid
         display="none"

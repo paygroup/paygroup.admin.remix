@@ -1,36 +1,12 @@
-import { everything } from "@genql/runtime";
-import { ActionFunction, json } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 
 import { genql } from "~/graphql/genql-cli";
-import { partner_campaign } from "~/graphql/genql-sdk";
+import type { partner_campaign } from "~/graphql/genql-sdk";
+
 import { validateValues } from "./route.validation";
 
-export const fetchOnePartner = async (id: string) =>
-  genql.chain.query
-    .partner_by_pk({
-      id,
-    })
-    .get({
-      ...everything,
-      partner_campaigns: {
-        ...everything,
-        groups: {
-          id: true,
-          group_name: true,
-          group_balance: true,
-          members_aggregate: {
-            aggregate: {
-              count: true,
-            },
-          },
-        },
-      },
-    })
-    .then((partner) => ({ partner: partner! }));
-
-export type Partner = Awaited<ReturnType<typeof fetchOnePartner>>["partner"];
-
-export const routeAction: ActionFunction = async ({ params, request }) => {
+export const partnerAction: ActionFunction = async ({ params, request }) => {
   const form = await request.formData();
   const values = Object.fromEntries(form.entries());
 
