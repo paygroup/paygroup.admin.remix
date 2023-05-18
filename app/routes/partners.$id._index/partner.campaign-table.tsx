@@ -18,7 +18,7 @@ export const PartnerCampaignsTable: React.FC<{ partner: partner }> = ({
     <Table color="gray.500" mb="24px" mt="12px">
       <Thead>
         <Tr>
-          {["Campaign name", "Balance", "Members"].map((header) => (
+          {["Campaign name", "Revenue", "Members"].map((header) => (
             <Th
               key={header}
               p="0px"

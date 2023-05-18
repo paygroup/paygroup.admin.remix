@@ -26,8 +26,10 @@ export default function PartnerIdIndex() {
     <Card flex={1}>
       <Tabs>
         <TabList>
-          <Tab>Campaigns</Tab>
+          <Tab>Dashboard</Tab>
           <Tab>Payments</Tab>
+          <Tab>Accounting</Tab>
+          <Tab>Campaigns</Tab>
           <Tab>Members</Tab>
         </TabList>
 
@@ -39,11 +41,18 @@ export default function PartnerIdIndex() {
         />
 
         <TabPanels>
+          <TabPanel>Analytics and latest activities</TabPanel>
+
+          <TabPanel>
+            <div>payments</div>
+          </TabPanel>
+
+          <TabPanel>
+            <div>accounting</div>
+          </TabPanel>
+
           <TabPanel>
             <PartnerTabsCampaigns />
-          </TabPanel>
-          <TabPanel>
-            <p>two!</p>
           </TabPanel>
           <TabPanel>
             <p>three!</p>

@@ -2,11 +2,11 @@ import { Link, useColorModeValue } from "@chakra-ui/react";
 
 import { useRouteHandles } from "./page.handles.use";
 
-export const PageTitle = () => {
+export const PageTitle: React.FC<{ value?: string }> = ({ value }) => {
   const color = useColorModeValue("brand.500", "white");
   const handles = useRouteHandles();
 
-  const pageTitle = handles[handles.length - 1].handle?.title;
+  const pageTitle = value ?? handles[handles.length - 1].handle?.title;
 
   return (
     <>

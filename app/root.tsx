@@ -26,8 +26,8 @@ import nProgressStyles from "nprogress/nprogress.css";
 
 import { useNProgress } from "./modules/nprogress";
 import { appTheme } from "./modules/theme";
-import { RootApp } from "./root.app";
 import { AuthLayout } from "./root.auth.layout";
+import { AppLayout } from "./root.layout";
 
 dayjs.extend(relative);
 
@@ -71,7 +71,7 @@ function App() {
       <body>
         <ChakraProvider theme={appTheme}>
           <SignedIn>
-            <RootApp />
+            <AppLayout />
           </SignedIn>
 
           <SignedOut>

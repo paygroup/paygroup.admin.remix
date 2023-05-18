@@ -1,3 +1,9 @@
+import { PageView } from "~/modules/page-view";
+
 export default function Index() {
-  return <div>Home</div>;
+  return (
+    <PageView>
+      <div>Home</div>
+    </PageView>
+  );
 }

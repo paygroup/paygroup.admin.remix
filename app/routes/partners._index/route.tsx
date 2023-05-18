@@ -4,6 +4,7 @@ import type { LoaderFunction } from "react-router";
 
 import { Card } from "~/components/card";
 import { Pagination } from "~/components/pagination";
+import { PageView } from "~/modules/page-view";
 
 import { AddPartnerModal } from "./add.partner.modal";
 import { PartnersTable } from "./route.partners.table";
@@ -25,39 +26,41 @@ export default function Partners() {
   const table = useRouteTable();
 
   return (
-    <Card
-      flexDirection="column"
-      w="100%"
-      px="0px"
-      overflowX={{ sm: "scroll", lg: "hidden" }}
-    >
-      <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
-        <Flex alignItems="center">
-          <Text
-            color={textColor}
-            fontSize="22px"
-            fontWeight="700"
-            lineHeight="100%"
-          >
-            All partners
-          </Text>
-          <Box ml="4">
-            <AddPartnerModal />
-          </Box>
+    <PageView>
+      <Card
+        flexDirection="column"
+        w="100%"
+        px="0px"
+        overflowX={{ sm: "scroll", lg: "hidden" }}
+      >
+        <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
+          <Flex alignItems="center">
+            <Text
+              color={textColor}
+              fontSize="22px"
+              fontWeight="700"
+              lineHeight="100%"
+            >
+              All partners
+            </Text>
+            <Box ml="4">
+              <AddPartnerModal />
+            </Box>
+          </Flex>
+
+          <Pagination
+            {...table.paging}
+            onChange={(page) => {
+              navigate(`/partners?page=${page}`);
+            }}
+          />
         </Flex>
 
-        <Pagination
-          {...table.paging}
-          onChange={(page) => {
-            navigate(`/partners?page=${page}`);
-          }}
+        <PartnersTable
+          columnGroups={table.getHeaderGroups()}
+          rowModel={table.getRowModel()}
         />
-      </Flex>
-
-      <PartnersTable
-        columnGroups={table.getHeaderGroups()}
-        rowModel={table.getRowModel()}
-      />
-    </Card>
+      </Card>
+    </PageView>
   );
 }

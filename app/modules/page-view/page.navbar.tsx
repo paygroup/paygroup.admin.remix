@@ -6,7 +6,10 @@ import { PageBreadcrumbs } from "./page.breadcrumbs";
 import NavBarLinks from "./page.navbar.links";
 import { PageTitle } from "./page.title";
 
-export const PageNavbar: React.FC<{ routes: RoutesType[] }> = ({ routes }) => {
+export const PageNavbar: React.FC<{
+  routes: RoutesType[];
+  pageTitle?: string;
+}> = ({ routes, pageTitle }) => {
   const navbarBg = useColorModeValue(
     "rgba(244, 247, 254, 0.2)",
     "rgba(11,20,55,0.5)"
@@ -68,7 +71,7 @@ export const PageNavbar: React.FC<{ routes: RoutesType[] }> = ({ routes }) => {
           >
             <Box mb={{ sm: "8px", md: "0px" }}>
               <PageBreadcrumbs />
-              <PageTitle />
+              <PageTitle value={pageTitle} />
             </Box>
 
             <Box ms="auto" w={{ sm: "100%", md: "unset" }}>

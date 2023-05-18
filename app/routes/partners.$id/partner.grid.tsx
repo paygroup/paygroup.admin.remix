@@ -8,7 +8,7 @@ export const PartnerGrid = ({ children }: React.PropsWithChildren) => (
       'stats info'
       'main   info'
     "
-    rowGap="20"
+    rowGap="10"
     columnGap={8}
     templateColumns="1fr 30%"
     templateRows="30px 1fr"

@@ -36,6 +36,7 @@
     "react": "^18.2.0",
     "react-custom-scrollbars-2": "^4.5.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
     "uniqid": "^5.4.0",
     "zod": "^3.21.4"

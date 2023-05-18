@@ -3,7 +3,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 export const PartnerTabs = () => (
   <Tabs>
     <TabList>
-      <Tab>Campaigns</Tab>
+      <Tab>Dashboard</Tab>
       <Tab>Payments</Tab>
       <Tab>Members</Tab>
     </TabList>
