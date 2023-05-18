@@ -14,7 +14,22 @@ const fetchBalance = async (partnerId: string) =>
     })
     .get({
       groups: {
+        id: true,
         group_balance: true,
+        members: {
+          id: true,
+          periods: [
+            { limit: 1, order_by: [{ created_at: "desc" }] },
+            { id: true },
+          ],
+        },
+      },
+      partner_operators: {
+        id: true,
+        user: {
+          id: true,
+          displayName: true,
+        },
       },
     })
     .then(

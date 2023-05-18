@@ -7,10 +7,10 @@ import { Card } from "~/components/card";
 import type { partner } from "~/graphql/genql-sdk";
 import { PageView } from "~/modules/page-view";
 
-import { PartnerInfo } from "./partner-info";
 import { PartnerGrid } from "./partner.grid";
 import { PartnerHeader } from "./partner.header.card";
-import { fetchPartnerData } from "./route.services";
+import { PartnerInfoTabsMain } from "./partner.info.tabs.main";
+import { fetchPartnerData } from "./route.loader";
 
 export const handle = {
   title: "view partner",
@@ -27,14 +27,14 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function PartnerId() {
-  const { partner, balance } =
+  const { partner } =
     useLoaderData<Awaited<ReturnType<typeof fetchPartnerData>>>();
 
   return (
     <PageView pageTitle={partner?.partner_name}>
       <PartnerGrid>
         <Box gridArea="stats">
-          <PartnerHeader partner={partner as partner} balance={balance} />
+          <PartnerHeader />
         </Box>
 
         <Flex mt="16" gridArea="main" flexDirection="column">
@@ -43,7 +43,9 @@ export default function PartnerId() {
 
         <Flex gridArea="info" flexDirection="column">
           <Card flex={1}>
-            {partner ? <PartnerInfo partner={partner as partner} /> : null}
+            {partner ? (
+              <PartnerInfoTabsMain partner={partner as partner} />
+            ) : null}
           </Card>
         </Flex>
       </PartnerGrid>

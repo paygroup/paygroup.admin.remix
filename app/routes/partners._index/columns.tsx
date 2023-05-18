@@ -3,7 +3,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
-import type { PartnerItem } from "./services";
+import type { PartnerItem } from "./route.loader";
 
 const columnHelper = createColumnHelper<PartnerItem>();
 

@@ -7,14 +7,15 @@ import { Pagination } from "~/components/pagination";
 import { PageView } from "~/modules/page-view";
 
 import { AddPartnerModal } from "./add.partner.modal";
+import { createPartnerAction } from "./route.create-partner";
+import { loadPartners } from "./route.loader";
 import { PartnersTable } from "./route.partners.table";
 import { useRouteTable } from "./route.table.use";
-import { loadPartners, routeAction } from "./services";
 
 export const loader: LoaderFunction = async ({ request }) =>
   loadPartners(request.url);
 
-export const action = routeAction;
+export const action = createPartnerAction;
 
 export const ErrorBoundary = () => (
   <div>Oups! Partner Creation failed (Contact Administrator)...</div>

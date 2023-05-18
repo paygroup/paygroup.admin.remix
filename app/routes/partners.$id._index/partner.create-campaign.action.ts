@@ -6,9 +6,12 @@ import type { partner_campaign } from "~/graphql/genql-sdk";
 
 import { validateValues } from "./route.validation";
 
-export const partnerAction: ActionFunction = async ({ params, request }) => {
+export const createCampaignAction: ActionFunction = async ({
+  params,
+  request,
+}) => {
   const form = await request.formData();
-  const values = Object.fromEntries(form.entries());
+  const values: Partial<partner_campaign> = Object.fromEntries(form.entries());
 
   const parsed = validateValues(values as Partial<partner_campaign>);
   if (!parsed.success) {
@@ -23,6 +26,8 @@ export const partnerAction: ActionFunction = async ({ params, request }) => {
       object: {
         partner_id: params.id,
         ...parsed.data,
+        campaign_title: parsed.data.campaign_title?.trim(),
+        campaign_description: parsed.data.campaign_description?.trim(),
         contribution_amount: Number(parsed.data.contribution_amount),
       },
     })

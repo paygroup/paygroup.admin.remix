@@ -1,16 +1,17 @@
 import { Icon, Flex, Button, Box, useDisclosure } from "@chakra-ui/react";
+import { useLoaderData } from "@remix-run/react";
 import { BsBoxArrowUpRight } from "react-icons/bs";
 
 import { Card } from "~/components/card";
 import { MiniStats } from "~/components/mini-stats";
-import type { partner } from "~/graphql/genql-sdk";
 
-import { PartnerWithdrawModal } from "./partner.withdraw-modal";
+import { PartnerWithdrawModal } from "./partner.withdraw.form";
+import type { fetchPartnerData } from "./route.loader";
 
-export const PartnerHeader: React.FC<{ partner: partner; balance: number }> = ({
-  balance,
-}) => {
+export const PartnerHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { balance } =
+    useLoaderData<Awaited<ReturnType<typeof fetchPartnerData>>>();
 
   const balanceValue = new Intl.NumberFormat("en-US", {
     style: "currency",

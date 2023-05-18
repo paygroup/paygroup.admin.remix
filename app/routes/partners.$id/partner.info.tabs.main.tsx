@@ -3,7 +3,9 @@ import { Box, VStack } from "@chakra-ui/react";
 import { SmartText } from "~/components/smarts/smart-text";
 import type { partner } from "~/graphql/genql-sdk";
 
-export const PartnerInfo: React.FC<{ partner: partner }> = ({ partner }) => (
+export const PartnerInfoTabsMain: React.FC<{ partner: partner }> = ({
+  partner,
+}) => (
   <VStack p="4" alignItems="flex-start" spacing="4">
     <Box>
       <SmartText color="gray.500" fontSize="18">

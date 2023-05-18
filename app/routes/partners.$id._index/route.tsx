@@ -10,14 +10,14 @@ import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 
 import { Card } from "~/components/card";
 
-import { partnerAction } from "./partner.action";
+import { createCampaignAction } from "./partner.create-campaign.action";
 import { partnerLoader } from "./partner.loader";
 import { PartnerTabsCampaigns } from "./partner.tabs.campaigns";
 
 export const loader: LoaderFunction = async ({ params }) =>
   partnerLoader(params.id as string);
 
-export const action: ActionFunction = partnerAction;
+export const action: ActionFunction = createCampaignAction;
 
 export const ErrorBoundary = () => <div>Oups!...</div>;
 

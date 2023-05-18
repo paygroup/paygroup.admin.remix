@@ -41,6 +41,13 @@ export const PartnerCampaignAddModal: React.FC<{
     }
   );
 
+  const handleOnDateChange = (date: Date) => {
+    console.log("date", date);
+    start.onChange(date);
+  };
+
+  console.log("date value", start.value?.toISOString());
+
   return (
     <Modal
       size="xl"
@@ -101,8 +108,7 @@ export const PartnerCampaignAddModal: React.FC<{
                   <SingleDatepicker
                     name="campaign_start_date"
                     minDate={yesterday}
-                    date={start.value}
-                    onDateChange={start.onChange}
+                    onDateChange={handleOnDateChange}
                   />
                   <input
                     type="hidden"
@@ -117,7 +123,6 @@ export const PartnerCampaignAddModal: React.FC<{
                 <FormControl isInvalid={!!errors?.campaign_ending_date?.length}>
                   <FormLabel>Campaign end date</FormLabel>
                   <SingleDatepicker
-                    date={end.value}
                     name="campaign_end_date"
                     minDate={yesterday}
                     onDateChange={end.onChange}
@@ -208,7 +213,7 @@ const useCampaignAdd = (props: { onClose: () => void }) => {
 };
 
 const useDateValues = () => {
-  const [start, setStart] = useState<Date>();
+  const [start, setStart] = useState<Date>(new Date());
   const [end, setEnd] = useState<Date>();
 
   return {
