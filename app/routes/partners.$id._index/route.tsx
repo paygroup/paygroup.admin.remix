@@ -10,9 +10,9 @@ import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 
 import { Card } from "~/components/card";
 
-import { createCampaignAction } from "./partner.create-campaign.action";
 import { partnerLoader } from "./partner.loader";
 import { PartnerTabsCampaigns } from "./partner.tabs.campaigns";
+import { createCampaignAction } from "./route.action";
 
 export const loader: LoaderFunction = async ({ params }) =>
   partnerLoader(params.id as string);
@@ -41,7 +41,9 @@ export default function PartnerIdIndex() {
         />
 
         <TabPanels>
-          <TabPanel>Analytics and latest activities</TabPanel>
+          <TabPanel>
+            <p>Analytics and latest activities</p>
+          </TabPanel>
 
           <TabPanel>
             <div>payments</div>
@@ -54,6 +56,7 @@ export default function PartnerIdIndex() {
           <TabPanel>
             <PartnerTabsCampaigns />
           </TabPanel>
+
           <TabPanel>
             <p>three!</p>
           </TabPanel>

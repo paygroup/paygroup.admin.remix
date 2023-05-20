@@ -1,4 +1,8 @@
-import type { InputProps, SelectProps } from "@chakra-ui/react";
+import type {
+  InputProps,
+  SelectProps,
+  NumberInputField,
+} from "@chakra-ui/react";
 import {
   Button,
   FormControl,
@@ -14,26 +18,27 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { useController, useForm } from "react-hook-form";
 
+import { NumericInput } from "~/components/numeric-input";
 import type { en_payment_providers_enum } from "~/graphql/genql-sdk";
 
-import type { fetchPartnerData } from "./route.loader";
+import { usePartnerWithdrawForm } from "./partner.withdraw.form.use";
 
 export const PartnerWithdrawModal: React.FC<{
   isOpen: boolean;
-  isProcessing: boolean;
   onClose: () => void;
-}> = ({ isOpen, isProcessing, onClose }) => {
-  const { amount, carrier, phone, submit, handleClose } = useWithdrawForm();
+}> = ({ isOpen, onClose }) => {
+  const {
+    amount,
+    carrier,
+    phone,
+    recipient,
+    isProcessing,
+    submit,
+    handleClose,
+  } = usePartnerWithdrawForm();
 
   return (
     <Modal
@@ -61,6 +66,14 @@ export const PartnerWithdrawModal: React.FC<{
               onBlur={carrier.field.onBlur}
               error={carrier.fieldState.error?.message}
             />
+
+            <RecipientFullName
+              value={recipient.field.value}
+              onChange={recipient.field.onChange}
+              onBlur={recipient.field.onBlur}
+              error={recipient.fieldState.error?.message}
+            />
+
             <DestinationPhoneControl
               value={phone.field.value}
               onChange={phone.field.onChange}
@@ -89,95 +102,15 @@ export const PartnerWithdrawModal: React.FC<{
   );
 };
 
-const useWithdrawForm = () => {
-  const fetcher = useFetcher();
-
-  const { partner } =
-    useLoaderData<Awaited<ReturnType<typeof fetchPartnerData>>>();
-
-  const { control, handleSubmit, reset } = useForm<{
-    amount: number;
-    phone: string;
-    carrier: en_payment_providers_enum;
-  }>();
-
-  const amount = useController({
-    control,
-    name: "amount",
-    rules: { required: "amount required" },
-  });
-
-  const phone = useController({
-    control,
-    name: "phone",
-    rules: { required: "phone required" },
-  });
-
-  const carrier = useController({
-    control,
-    name: "carrier",
-    rules: { required: "carrier required" },
-  });
-
-  const submit = handleSubmit((data) => {
-    const payload = {
-      ...data,
-      groupid: partner.groups[0].id,
-      memberid: partner.groups[0].members[0].id,
-      periodid: partner.groups[0].members[0].periods[0].id,
-    };
-
-    fetcher.submit(payload as any, { method: "POST" });
-  });
-
-  const handleClose = (cb: () => void) => () => {
-    console.log("reset");
-    reset();
-    cb();
-  };
-
-  return {
-    amount,
-    phone,
-    carrier,
-    submit,
-    handleClose,
-  };
-};
-
 const WithdrawAmountControl: React.FC<
   React.ComponentProps<typeof NumberInputField> & { error?: string }
-> = ({ error, ...rest }) => {
-  const color = useColorModeValue("secondaryGray.900", "white");
-  const borderColor = useColorModeValue(
-    "secondaryGray.100",
-    "rgba(135, 140, 189, 0.3)"
-  );
-
-  return (
-    <FormControl isRequired isInvalid={!!error?.length}>
-      <FormLabel>withdraw amount</FormLabel>
-      <NumberInput
-        variant="main"
-        precision={2}
-        step={0.2}
-        borderColor={borderColor}
-      >
-        <NumberInputField
-          placeholder="enter withdraw amount"
-          color={color}
-          borderColor={borderColor}
-          {...rest}
-        />
-        <NumberInputStepper>
-          <NumberIncrementStepper />
-          <NumberDecrementStepper />
-        </NumberInputStepper>
-      </NumberInput>
-      <FormErrorMessage>{error}</FormErrorMessage>
-    </FormControl>
-  );
-};
+> = ({ error, ...rest }) => (
+  <FormControl isRequired isInvalid={!!error?.length}>
+    <FormLabel>withdraw amount</FormLabel>
+    <NumericInput placeholder="enter withdraw amount" {...rest} />
+    <FormErrorMessage>{error}</FormErrorMessage>
+  </FormControl>
+);
 
 const PhoneCarrierSelectControl: React.FC<SelectProps & { error?: string }> = ({
   error,
@@ -226,6 +159,17 @@ const PhoneCarrierSelectControl: React.FC<SelectProps & { error?: string }> = ({
     </FormControl>
   );
 };
+
+const RecipientFullName: React.FC<InputProps & { error?: string }> = ({
+  error,
+  ...rest
+}) => (
+  <FormControl isRequired isInvalid={!!error?.length}>
+    <FormLabel>Recipient fullname </FormLabel>
+    <Input variant="main" placeholder="enter recipient full name" {...rest} />
+    <FormErrorMessage>{error}</FormErrorMessage>
+  </FormControl>
+);
 
 const DestinationPhoneControl: React.FC<InputProps & { error?: string }> = ({
   error,

@@ -33,10 +33,7 @@ export const createCampaignAction: ActionFunction = async ({
     })
     .get({ id: true })
     .then(() => json({ done: true }, { status: 200 }))
-    .catch((error) => {
-      console.log(error); // <-- SOS! log this error
-      return json({ fatal: parseFatalError(error) }, { status: 500 });
-    });
+    .catch((error) => json({ fatal: parseFatalError(error) }, { status: 500 }));
 };
 
 const parseFatalError = (error: unknown) => {

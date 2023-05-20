@@ -14,7 +14,7 @@ export const PartnerTabsCampaigns = () => {
   return (
     <>
       <PartnerCampaignsTableList partner={partner as partner} onOpen={onOpen} />
-      <PartnerCampaignAddModal isOpen={isOpen} onClose={onClose} />
+      {isOpen && <PartnerCampaignAddModal isOpen onClose={onClose} />}
     </>
   );
 };

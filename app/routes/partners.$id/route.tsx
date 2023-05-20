@@ -1,6 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 
 import { Card } from "~/components/card";
@@ -10,6 +9,7 @@ import { PageView } from "~/modules/page-view";
 import { PartnerGrid } from "./partner.grid";
 import { PartnerHeader } from "./partner.header.card";
 import { PartnerInfoTabsMain } from "./partner.info.tabs.main";
+import { submitWithdrawAction } from "./route.action";
 import { fetchPartnerData } from "./route.loader";
 
 export const handle = {
@@ -19,12 +19,7 @@ export const handle = {
 export const loader: LoaderFunction = async ({ params }) =>
   fetchPartnerData(params.id!);
 
-export const action: ActionFunction = async ({ request }) => {
-  const form = await request.formData();
-  const values = Object.fromEntries(form.entries());
-  console.log("running action", values);
-  return json({ message: "ok" });
-};
+export const action: ActionFunction = submitWithdrawAction;
 
 export default function PartnerId() {
   const { partner } =

@@ -37,11 +37,7 @@ export const PartnerHeader = () => {
         <Box flex={1} />
       </Flex>
 
-      <PartnerWithdrawModal
-        isOpen={isOpen}
-        isProcessing={false}
-        onClose={onClose}
-      />
+      <PartnerWithdrawModal isOpen={isOpen} onClose={onClose} />
     </Card>
   );
 };

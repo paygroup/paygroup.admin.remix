@@ -16,6 +16,16 @@ export const partnerLoader = async (partnerId: string) =>
           id: true,
           group_name: true,
           group_balance: true,
+          members: {
+            id: true,
+            periods: [
+              {
+                limit: 1,
+                order_by: [{ created_at: "desc" }],
+              },
+              { id: true },
+            ],
+          },
           members_aggregate: {
             aggregate: {
               count: true,
