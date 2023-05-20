@@ -24,6 +24,7 @@ import {
 import { NumericInput } from "~/components/numeric-input";
 import type { en_payment_providers_enum } from "~/graphql/genql-sdk";
 
+import { PartnerWithdrawFormTitle } from "./partner.withdraw.form.title";
 import { usePartnerWithdrawForm } from "./partner.withdraw.form.use";
 
 export const PartnerWithdrawModal: React.FC<{
@@ -36,6 +37,7 @@ export const PartnerWithdrawModal: React.FC<{
     phone,
     recipient,
     isProcessing,
+    insufficientBalance,
     submit,
     handleClose,
   } = usePartnerWithdrawForm();
@@ -49,7 +51,9 @@ export const PartnerWithdrawModal: React.FC<{
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Withdraw funds</ModalHeader>
+        <ModalHeader>
+          <PartnerWithdrawFormTitle insufficientFunds={insufficientBalance} />
+        </ModalHeader>
         <ModalCloseButton />
 
         <ModalBody py="4" borderTopWidth={1} borderBottomWidth={1}>
@@ -84,7 +88,12 @@ export const PartnerWithdrawModal: React.FC<{
         </ModalBody>
 
         <ModalFooter>
-          <Button variant="brand" isLoading={isProcessing} onClick={submit}>
+          <Button
+            variant="brand"
+            isLoading={isProcessing}
+            isDisabled={insufficientBalance}
+            onClick={submit}
+          >
             withdraw
           </Button>
 
@@ -92,6 +101,7 @@ export const PartnerWithdrawModal: React.FC<{
             ml="3"
             colorScheme="red"
             isLoading={isProcessing}
+            isDisabled={insufficientBalance || isProcessing}
             onClick={isProcessing ? undefined : handleClose(onClose)}
           >
             cancel

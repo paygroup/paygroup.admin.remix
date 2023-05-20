@@ -11,12 +11,13 @@ import type { fetchPartnerData } from "./route.loader";
 export const usePartnerWithdrawForm = () => {
   const fetcher = useFetcher();
 
-  const { partner } =
+  const { partner, balance } =
     useLoaderData<Awaited<ReturnType<typeof fetchPartnerData>>>();
 
   const { control, handleSubmit, reset } = useForm<WithdrawPayload>();
   const { state } = useNavigation();
   const isProcessing = state === "submitting";
+  const insufficientBalance = balance <= 0;
 
   const amount = useController({
     control,
@@ -37,6 +38,7 @@ export const usePartnerWithdrawForm = () => {
       required: "phone required",
       validate: (value) => {
         const parsed = parsePhoneNumber(value, { regionCode: "CD" });
+
         if (!isValidPhone(parsed)) {
           return "only valid DRC numbers are allowed (+234)";
         }
@@ -96,6 +98,7 @@ export const usePartnerWithdrawForm = () => {
     carrier,
     recipient,
     isProcessing,
+    insufficientBalance,
     submit,
     handleClose,
   };
