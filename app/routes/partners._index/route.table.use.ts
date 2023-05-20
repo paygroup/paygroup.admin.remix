@@ -8,7 +8,7 @@ import {
 import { usePagination } from "~/components/pagination";
 
 import { useColumns } from "./columns";
-import type { PartnerItem, PartnerPagination } from "./services";
+import type { PartnerItem, PartnerPagination } from "./route.loader";
 
 export const useRouteTable = () => {
   const navigate = useNavigate();

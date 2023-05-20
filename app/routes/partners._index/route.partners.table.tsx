@@ -11,7 +11,7 @@ import {
 import type { HeaderGroup, RowModel } from "@tanstack/react-table";
 import { flexRender } from "@tanstack/react-table";
 
-import type { PartnerItem } from "./services";
+import type { PartnerItem } from "./route.loader";
 
 export const PartnersTable: React.FC<{
   columnGroups: HeaderGroup<PartnerItem>[];

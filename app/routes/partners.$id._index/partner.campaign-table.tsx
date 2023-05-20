@@ -11,14 +11,14 @@ import {
 import { SmartText } from "~/components/smarts/smart-text";
 import type { partner } from "~/graphql/genql-sdk";
 
-export const PartnerCampaigns: React.FC<{ partner: partner }> = ({
+export const PartnerCampaignsTable: React.FC<{ partner: partner }> = ({
   partner,
 }) => (
   <TableContainer>
     <Table color="gray.500" mb="24px" mt="12px">
       <Thead>
         <Tr>
-          {["Campaign name", "Balance", "Members"].map((header) => (
+          {["Campaign name", "Revenue", "Members"].map((header) => (
             <Th
               key={header}
               p="0px"
@@ -35,7 +35,7 @@ export const PartnerCampaigns: React.FC<{ partner: partner }> = ({
       <Tbody>
         {partner.partner_campaigns.map((campaign) => (
           <Tr key={campaign.id}>
-            <Td pl="0" fontSize="20" color="secondaryGray.900">
+            <Td pl="0" fontSize="lg" color="secondaryGray.900">
               <SmartText>{campaign.campaign_title}</SmartText>
             </Td>
             <Td />

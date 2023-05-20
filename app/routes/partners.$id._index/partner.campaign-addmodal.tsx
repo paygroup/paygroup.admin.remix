@@ -16,11 +16,6 @@ import {
   Textarea,
   VStack,
   Flex,
-  NumberInput,
-  NumberInputField,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInputStepper,
   useColorModeValue,
   FormErrorMessage,
   useToast,
@@ -28,18 +23,18 @@ import {
 import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 
+import { NumericInput } from "~/components/numeric-input";
 import type { partner_campaign } from "~/graphql/genql-sdk";
 import type { RouteAction } from "~/types";
 
-export const CampaignAddModal: React.FC<{
+export const PartnerCampaignAddModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ isOpen, onClose }) => {
-  const { state, contribColor, start, end, yesterday, errors } = useCampaignAdd(
-    {
-      onClose,
-    }
-  );
+  const dateColor = useColorModeValue("secondaryGray.500", "white");
+  const { state, start, end, yesterday, errors } = useCampaignAdd({
+    onClose,
+  });
 
   return (
     <Modal
@@ -75,17 +70,10 @@ export const CampaignAddModal: React.FC<{
                 isInvalid={!!errors?.contribution_amount?.length}
               >
                 <FormLabel>Campaign contribution</FormLabel>
-                <NumberInput variant="main" precision={2} step={0.2}>
-                  <NumberInputField
-                    name="contribution_amount"
-                    placeholder="enter contribution amount"
-                    color={contribColor}
-                  />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
+                <NumericInput
+                  name="contribution_amount"
+                  placeholder="enter contribution amount"
+                />
                 <FormErrorMessage>
                   {errors?.contribution_amount?.[0]}
                 </FormErrorMessage>
@@ -99,10 +87,15 @@ export const CampaignAddModal: React.FC<{
                 >
                   <FormLabel>Campaign start date</FormLabel>
                   <SingleDatepicker
-                    name="campaign_start_date"
-                    minDate={yesterday}
                     date={start.value}
+                    minDate={yesterday}
                     onDateChange={start.onChange}
+                    propsConfigs={{
+                      inputProps: {
+                        color: dateColor,
+                        variant: "main",
+                      },
+                    }}
                   />
                   <input
                     type="hidden"
@@ -117,10 +110,16 @@ export const CampaignAddModal: React.FC<{
                 <FormControl isInvalid={!!errors?.campaign_ending_date?.length}>
                   <FormLabel>Campaign end date</FormLabel>
                   <SingleDatepicker
-                    date={end.value}
                     name="campaign_end_date"
                     minDate={yesterday}
+                    date={end.value}
                     onDateChange={end.onChange}
+                    propsConfigs={{
+                      inputProps: {
+                        color: dateColor,
+                        variant: "main",
+                      },
+                    }}
                   />
                   <input
                     type="hidden"
@@ -208,7 +207,7 @@ const useCampaignAdd = (props: { onClose: () => void }) => {
 };
 
 const useDateValues = () => {
-  const [start, setStart] = useState<Date>();
+  const [start, setStart] = useState<Date>(new Date());
   const [end, setEnd] = useState<Date>();
 
   return {
